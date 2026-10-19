@@ -9,9 +9,11 @@ env/
 .ipynb_checkpoints/
 
 # Machine-learning outputs and datasets
-data/
+data/*
+!data/.gitkeep
 datasets/
-checkpoints/
+checkpoints/*
+!checkpoints/.gitkeep
 outputs/
 *.pt
 *.pth
