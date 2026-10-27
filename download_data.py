@@ -1,8 +1,5 @@
 """Download and extract DPD-Small from a public Hugging Face dataset repo.
 
-Hugging Face Dataset:
-https://huggingface.co/datasets/print1Username/COS30082-Machine-Learning-Project.dataset
-
 Install: python -m pip install -U huggingface_hub py7zr tqdm
 Run:     python download_data.py
 
@@ -69,9 +66,10 @@ def safe_archive_names(names: list[str]) -> None:
 
 def extract_archive(archive_path: Path, destination: Path) -> None:
     import py7zr
+    from py7zr.callbacks import ExtractCallback
     from tqdm import tqdm
 
-    class ProgressCallback:
+    class ProgressCallback(ExtractCallback):
         def __init__(self, bar):
             self.bar = bar
 
