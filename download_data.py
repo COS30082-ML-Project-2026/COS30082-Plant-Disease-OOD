@@ -68,6 +68,7 @@ def extract_archive(archive_path: Path, destination: Path) -> None:
 
 	class ProgressCallback( ExtractCallback ):
 		def __init__(self, bar):
+			super().__init__()
 			self.bar = bar
 
 		def report_start_preparation(self, *args):
@@ -84,6 +85,9 @@ def extract_archive(archive_path: Path, destination: Path) -> None:
 
 		def report_postprocess(self, *args):
 			pass
+
+		def report_warning(self, message):
+			tqdm.write( f"[Extraction warning] {message}" )
 
 	with py7zr.SevenZipFile( archive_path, mode = "r" ) as archive:
 		names = archive.getnames()
