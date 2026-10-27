@@ -18,15 +18,19 @@ pip install -r requirements.txt
 
 ```
 
+## Run Application
+Download Dataset:
+```cmd
+python download_data.py
 
-
-## Python Run
+```
+---
 Run once after training: 
 ```cmd
 python build_index.py
 
 ```
-
+---
 Run app.py
 ```cmd
 streamlit run app.py
