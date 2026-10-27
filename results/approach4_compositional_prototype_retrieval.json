@@ -1,0 +1,44 @@
+{
+  "model": "approach4_compositional_prototype_retrieval",
+  "seen_top1": 61.0,
+  "seen_top5": 86.9,
+  "unseen_top1": 5.59,
+  "unseen_top5": 33.84,
+  "harmonic_mean": 10.24,
+  "crop_acc": 93.9,
+  "disease_acc": 62.25,
+  "hp": {
+    "backbone": "vit_base_patch14_dinov2.lvd142m",
+    "image_size": 224,
+    "embedding_dim": 256,
+    "lr": 0.001,
+    "epochs": 30,
+    "batch_size": 32,
+    "head_batch_size": 256,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0001,
+    "temperature": 0.1,
+    "crop_weight": 0.5,
+    "prototype_loss_weight": 1.0,
+    "seen_bias": 0.0,
+    "num_seen_pairs": 323,
+    "seed": 42,
+    "frozen_backbone": true,
+    "cached_augmented_views": 1,
+    "debug": false
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 60.95,
+      "drop": 0.05
+    },
+    "blur": {
+      "top1": 58.5,
+      "drop": 2.5
+    },
+    "noise": {
+      "top1": 51.3,
+      "drop": 9.7
+    }
+  }
+}

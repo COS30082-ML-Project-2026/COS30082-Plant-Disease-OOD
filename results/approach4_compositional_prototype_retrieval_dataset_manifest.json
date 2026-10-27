@@ -1,0 +1,9 @@
+{
+  "images": {
+    "train": 8000,
+    "test_seen": 2000,
+    "test_unseen": 1448
+  },
+  "validation": "passed",
+  "archive_sha256": "9f70f7385b86a865c82a6db4f10756ca90defd54bb3954b73f7eee52b5cea948"
+}

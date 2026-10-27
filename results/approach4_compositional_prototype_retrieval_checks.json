@@ -1,0 +1,114 @@
+{
+  "restoration": "passed",
+  "score_shape": [
+    2,
+    333
+  ],
+  "training_memory_images": 7223,
+  "validation_overlap": 0,
+  "pair_order": "passed",
+  "example_retrieval": [
+    {
+      "pair": [
+        32,
+        118
+      ],
+      "crop": [
+        {
+          "image": "OD_olive_healthy_914.JPG",
+          "similarity": 0.9432163238525391,
+          "crop": 32,
+          "disease": 9
+        },
+        {
+          "image": "OD_olive_healthy_1377.jpg",
+          "similarity": 0.9342830181121826,
+          "crop": 32,
+          "disease": 9
+        },
+        {
+          "image": "OD_olive_peacock_spot_2926.jpg",
+          "similarity": 0.9160789847373962,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_healthy_1485.JPG",
+          "similarity": 0.9102175235748291,
+          "crop": 32,
+          "disease": 9
+        },
+        {
+          "image": "OD_olive_healthy_1264.JPG",
+          "similarity": 0.9062315225601196,
+          "crop": 32,
+          "disease": 9
+        }
+      ],
+      "disease": [
+        {
+          "image": "OD_olive_peacock_spot_2445.jpg",
+          "similarity": 0.9206646084785461,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_peacock_spot_2010.JPG",
+          "similarity": 0.8895495533943176,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_peacock_spot_2833.jpg",
+          "similarity": 0.8567405343055725,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_peacock_spot_2616.jpg",
+          "similarity": 0.8551217317581177,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_peacock_spot_1905.JPG",
+          "similarity": 0.8506365418434143,
+          "crop": 32,
+          "disease": 118
+        }
+      ],
+      "joint": [
+        {
+          "image": "OD_olive_peacock_spot_2445.jpg",
+          "similarity": 0.9094095230102539,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_healthy_914.JPG",
+          "similarity": 0.898099958896637,
+          "crop": 32,
+          "disease": 9
+        },
+        {
+          "image": "OD_olive_peacock_spot_2010.JPG",
+          "similarity": 0.8874552249908447,
+          "crop": 32,
+          "disease": 118
+        },
+        {
+          "image": "OD_olive_healthy_1377.jpg",
+          "similarity": 0.8772246837615967,
+          "crop": 32,
+          "disease": 9
+        },
+        {
+          "image": "OD_olive_peacock_spot_2926.jpg",
+          "similarity": 0.8704730272293091,
+          "crop": 32,
+          "disease": 118
+        }
+      ]
+    }
+  ]
+}

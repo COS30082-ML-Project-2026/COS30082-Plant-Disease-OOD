@@ -6,6 +6,10 @@ prototypes, zero-shot pair composition and supporting-image retrieval.
 - [Six-section notebook](approaches/approach4_compositional_prototype_retrieval.ipynb)
 - [Scope, methodology and task distribution](docs/approach4_scope.md)
 - [Colab setup and training](colab/README.md)
+- [Completed run, results and action summary](docs/approach4_run_report.md)
+
+Full Colab run: seen Top-1 61.00%, unseen Top-1 5.59%, harmonic mean 10.24%.
+The initial variant has weak unseen performance; baseline superiority is not established.
 
 Default is a DEBUG smoke test. For the full benchmark, prepare DPD-Small and run
 `python -m colab.run_approach4 --full`. Full and DEBUG outputs are separated.

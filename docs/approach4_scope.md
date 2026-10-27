@@ -33,6 +33,20 @@ other team members or claims that they have contributed.
 
 ## Method and motivation
 
+```mermaid
+flowchart LR
+    I[Leaf image] --> B[Frozen DINOv2 ViT-B/14]
+    B --> C[Crop projection]
+    B --> D[Disease projection]
+    T[Training subset only] --> P[Partner-balanced concept prototypes]
+    P --> S[Compose crop and disease similarities]
+    C --> S
+    D --> S
+    S --> R[Rank all 333 pairs]
+    C --> N[Retrieve supporting training images]
+    D --> N
+```
+
 Let `f(x)` be the frozen DINOv2 feature. Normalize two learned projections
 `zc = normalize(Wc f(x)+bc)` and `zd = normalize(Wd f(x)+bd)`.
 For each observed crop/disease pair in the training subset, compute the mean
