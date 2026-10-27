@@ -19,8 +19,16 @@ pip install -r requirements.txt
 ```
 
 
+
 ## Python Run
+Run once after training: 
 ```cmd
-python app.py
+python build_index.py
+
+```
+
+Run app.py
+```cmd
+streamlit run app.py
 
 ```
