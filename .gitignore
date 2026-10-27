@@ -32,3 +32,8 @@ outputs/
 Thumbs.db
 .vscode/
 .idea/
+
+# File
+*.pdf
+*.docx
+AGENTS.md
