@@ -58,7 +58,8 @@ until real held-out results are available.
 ## Data and model selection
 
 Use `common.dataset.get_loaders`, `get_pairs` and the shared seed-42 per-pair
-validation split. Only the training subset enters prototype/reference memory.
+validation split (7,223 training and 777 validation images for the supplied metadata,
+because sampling rounds within each pair). Only the training subset enters prototype/reference memory.
 One randomly augmented view per training image is cached once for efficient head
 training; this is **not fresh augmentation each epoch**. Deterministic support
 features and validation features are cached separately. No test image is used for

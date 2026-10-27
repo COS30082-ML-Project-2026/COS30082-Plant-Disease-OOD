@@ -39,3 +39,19 @@ The preparation script checks counts, candidate support, split overlap and paths
 and records archive SHA-256. Do not commit data, weights or cached features.
 
 Local verification: `python -m unittest discover -s tests -v`.
+
+## Alternative without mounting Drive
+
+The public Drive archive can be downloaded with `gdown`. Install `gdown` alongside
+the two extra tools above, clone the branch and run:
+
+```python
+subprocess.run(['python', '-m', 'colab.launch_public_dataset'], check=True)
+```
+
+This runs DEBUG followed by full training, writes progress and log files under
+`/content/CPR-output`, and packages `/content/CPR-results.zip`. Download that bundle
+from Colab's Files pane and upload it to Drive. This avoids relying on the Drive
+mount permission flow; the output files still need to be preserved before the
+runtime ends. The Colab notebook created for the experiment is
+[available here](https://colab.research.google.com/drive/1HPJNy3r6GP5LSzG_IjtrDGDSp46qAP-r).
