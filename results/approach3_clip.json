@@ -1,0 +1,39 @@
+{
+  "model": "approach3_clip",
+  "seen_top1": 10.0,
+  "seen_top5": 32.0,
+  "unseen_top1": 4.0,
+  "unseen_top5": 17.0,
+  "harmonic_mean": 5.71,
+  "crop_acc": 44.0,
+  "disease_acc": 13.0,
+  "hp": {
+    "backbone": "ViT-B-16",
+    "pretrained": "openai",
+    "lr": 1e-05,
+    "weight_decay": 0.05,
+    "epochs": 10,
+    "batch_size": 64,
+    "optimizer": "AdamW",
+    "trainable_blocks": 4,
+    "prompts": [
+      "a photo of a {crop} leaf with {disease}.",
+      "a close-up photo of a {crop} plant showing {disease}.",
+      "{disease} on a {crop} leaf."
+    ]
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 12.0,
+      "drop": -2.0
+    },
+    "blur": {
+      "top1": 7.0,
+      "drop": 3.0
+    },
+    "noise": {
+      "top1": 5.0,
+      "drop": 5.0
+    }
+  }
+}
