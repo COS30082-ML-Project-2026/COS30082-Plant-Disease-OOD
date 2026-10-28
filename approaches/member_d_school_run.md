@@ -29,6 +29,8 @@ The three CSVs must contain 8,000 / 2,000 / 1,448 images. Shared code defines 32
 
 ## DEBUG before formal experiments
 
+For a laptop check, run Setup, Data and Model, then only the optional local training smoke-test cell. It uses `approaches/clip_smoke.py` to test one image and one optimizer update for Partial-1/3/6 and Full, checking finite gradients and changed weights. Each test starts from initial pretrained weights, which are restored afterward. Results are saved to ignored `checkpoints/approach3_clip_debug/single_batch_smoke.json`. Stop before the large Training cell if you only want this check. A smoke test proves training mechanics, not full-epoch performance or accuracy.
+
 Open `approaches/approach3_clip.ipynb`. Keep DEBUG=True; restart kernel and Run All. The notebook checks real metadata, prompts, scores and freeze selection, trains each configuration for one epoch, selects a partial winner on validation, then evaluates the three final candidates. Verify finite losses/metrics and generated checkpoints/results. This is a complete small run, not a fabricated sample result.
 
 For a headless DEBUG run from the repository root:
