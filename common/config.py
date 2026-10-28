@@ -9,10 +9,10 @@ import torch
 # Paths. Change only these lines if your data lives somewhere else.
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
-IMAGE_DIR = DATA_DIR / "images"  # image file names in the CSVs are relative to this folder
-TRAIN_CSV = DATA_DIR / "train.csv"
-TEST_SEEN_CSV = DATA_DIR / "test_seen.csv"
-TEST_UNSEEN_CSV = DATA_DIR / "test_unseen.csv"
+IMAGE_DIR = DATA_DIR / "DPD_Small_dataset"  # image file names in the CSVs are relative to this folder
+TRAIN_CSV = DATA_DIR / "DPD_Small_train.csv"
+TEST_SEEN_CSV = DATA_DIR / "DPD_Small_test_seen.csv"
+TEST_UNSEEN_CSV = DATA_DIR / "DPD_Small_test_unseen.csv"
 RESULTS_DIR = ROOT_DIR / "results"
 CHECKPOINT_DIR = ROOT_DIR / "checkpoints"
 

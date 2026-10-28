@@ -19,10 +19,10 @@ On Linux use `python3.11` and `source .venv/bin/activate`. A school-managed envi
 Copy the real DPD-Small metadata and images locally:
 
 ```text
-data/train.csv
-data/test_seen.csv
-data/test_unseen.csv
-data/images/<filenames matching CSV image column>
+data/DPD_Small_train.csv
+data/DPD_Small_test_seen.csv
+data/DPD_Small_test_unseen.csv
+data/DPD_Small_dataset/<filenames matching CSV image column>
 ```
 
 The three CSVs must contain 8,000 / 2,000 / 1,448 images. Shared code defines 323 seen + 10 unseen pairs. Do not change mappings or split code in the notebook to bypass assertions.

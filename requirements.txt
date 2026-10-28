@@ -12,3 +12,7 @@ pillow==12.0.0
 streamlit==1.66.1
 jupyter==1.1.1
 nbstripout==0.8.2
+
+huggingface_hub
+py7zr
+tqdm

@@ -1,18 +1,39 @@
-data/*
-!data/.gitkeep
-checkpoints/*
-!checkpoints/.gitkeep
+# Python
 __pycache__/
 *.py[cod]
-.ipynb_checkpoints/
 .venv/
 venv/
-.env
-.env.*
-!.env.example
+env/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Machine-learning outputs and datasets
+data/*
+!data/.gitkeep
+datasets/
+checkpoints/*
+!checkpoints/.gitkeep
+outputs/
 *.pt
 *.pth
 *.ckpt
 *.h5
 *.keras
-outputs/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# File
+*.pdf
+*.docx
+AGENTS.md
