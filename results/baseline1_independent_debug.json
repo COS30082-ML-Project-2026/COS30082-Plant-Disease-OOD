@@ -1,0 +1,36 @@
+{
+  "model": "baseline1_independent_debug",
+  "seen_top1": 2.0,
+  "seen_top5": 9.0,
+  "unseen_top1": 0.0,
+  "unseen_top5": 0.0,
+  "harmonic_mean": 0.0,
+  "crop_acc": 8.0,
+  "disease_acc": 18.0,
+  "hp": {
+    "backbone": "resnet50",
+    "crop_lr": 0.0001,
+    "disease_lr": 0.0003,
+    "weight_decay": 0.0001,
+    "crop_epochs": 20,
+    "disease_epochs": 20,
+    "batch_size": 16,
+    "optimizer": "AdamW",
+    "label_smoothing": 0.1,
+    "debug": true
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 2.0,
+      "drop": 0.0
+    },
+    "blur": {
+      "top1": 2.0,
+      "drop": 0.0
+    },
+    "noise": {
+      "top1": 1.0,
+      "drop": 1.0
+    }
+  }
+}

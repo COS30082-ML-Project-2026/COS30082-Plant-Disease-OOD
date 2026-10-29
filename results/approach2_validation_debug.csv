@@ -1,0 +1,5 @@
+run_type,experiment,orthogonal_weight,adversarial_weight,best_epoch,val_top1,val_correlation,checkpoint
+debug,exp4_combined,0.1,0.3,1,6.0,0.029537877067923546,C:\Users\102786580\Downloads\COS30082-Plant-Disease-OOD\checkpoints\approach2_exp4_combined_debug.pt
+debug,exp3_adversarial,0.0,0.3,1,4.0,0.029013196006417274,C:\Users\102786580\Downloads\COS30082-Plant-Disease-OOD\checkpoints\approach2_exp3_adversarial_debug.pt
+debug,exp1_encoders,0.0,0.0,1,4.0,0.02959796041250229,C:\Users\102786580\Downloads\COS30082-Plant-Disease-OOD\checkpoints\approach2_exp1_encoders_debug.pt
+debug,exp2_orthogonal,0.1,0.0,1,4.0,0.030075790360569954,C:\Users\102786580\Downloads\COS30082-Plant-Disease-OOD\checkpoints\approach2_exp2_orthogonal_debug.pt

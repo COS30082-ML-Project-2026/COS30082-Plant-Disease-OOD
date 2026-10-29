@@ -1,12 +1,12 @@
 {
   "model": "approach1_contrastive",
-  "seen_top1": 53.95,
-  "seen_top5": 78.75,
-  "unseen_top1": 2.49,
-  "unseen_top5": 24.72,
-  "harmonic_mean": 4.76,
-  "crop_acc": 80.8,
-  "disease_acc": 58.15,
+  "seen_top1": 56.6,
+  "seen_top5": 81.0,
+  "unseen_top1": 2.9,
+  "unseen_top5": 26.04,
+  "harmonic_mean": 5.52,
+  "crop_acc": 83.45,
+  "disease_acc": 60.1,
   "hp": {
     "backbone": "resnet50",
     "lr": 0.0001,
@@ -17,20 +17,20 @@
     "label_smoothing": 0.1,
     "projection_dim": 128,
     "temperature": 0.1,
-    "contrastive_weight": 0.5
+    "contrastive_weight": 0.1
   },
   "robustness": {
     "brightness": {
-      "top1": 52.15,
-      "drop": 1.8
+      "top1": 54.1,
+      "drop": 2.5
     },
     "blur": {
-      "top1": 34.7,
-      "drop": 19.25
+      "top1": 35.8,
+      "drop": 20.8
     },
     "noise": {
-      "top1": 28.65,
-      "drop": 25.3
+      "top1": 24.55,
+      "drop": 32.05
     }
   }
 }

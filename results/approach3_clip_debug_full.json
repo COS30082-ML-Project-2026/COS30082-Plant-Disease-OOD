@@ -1,0 +1,61 @@
+{
+  "model": "approach3_clip_debug_full",
+  "seen_top1": 12.0,
+  "seen_top5": 37.0,
+  "unseen_top1": 3.0,
+  "unseen_top5": 11.0,
+  "harmonic_mean": 4.8,
+  "crop_acc": 40.0,
+  "disease_acc": 14.0,
+  "hp": {
+    "backbone": "ViT-B-16",
+    "pretrained": "openai",
+    "seed": 42,
+    "lr": 1e-05,
+    "weight_decay": 0.05,
+    "epochs": 10,
+    "batch_size": 8,
+    "optimizer": "AdamW",
+    "partial_depths": [
+      1,
+      3,
+      6
+    ],
+    "prompt": "a photo of a {crop} leaf with {disease}",
+    "norm": "clip",
+    "robust": true,
+    "gradient_checkpointing": true,
+    "selection": "validation_top1",
+    "tie_break": "smaller_depth",
+    "environment": {
+      "torch": "2.9.1+cu128",
+      "torchvision": "0.24.1+cu128",
+      "open_clip_torch": "3.3.0",
+      "python": "3.11.18 | packaged by Anaconda, Inc. | (main, Oct 26 2026, 18:13:29) [MSC v.1942 64 bit (AMD64)]",
+      "device": "cuda",
+      "debug": true
+    },
+    "samples": {
+      "train": 200,
+      "val": 50,
+      "seen": 100,
+      "unseen": 100
+    },
+    "trainable_parameters": 149620737,
+    "best_val": 22.0
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 10.0,
+      "drop": 2.0
+    },
+    "blur": {
+      "top1": 12.0,
+      "drop": 0.0
+    },
+    "noise": {
+      "top1": 12.0,
+      "drop": 0.0
+    }
+  }
+}
