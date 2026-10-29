@@ -1,18 +1,18 @@
 {
   "model": "approach1_contrastive",
-  "seen_top1": 1.0,
-  "seen_top5": 1.0,
-  "unseen_top1": 0.0,
-  "unseen_top5": 4.0,
-  "harmonic_mean": 0.0,
-  "crop_acc": 4.0,
-  "disease_acc": 5.0,
+  "seen_top1": 53.95,
+  "seen_top5": 78.75,
+  "unseen_top1": 2.49,
+  "unseen_top5": 24.72,
+  "harmonic_mean": 4.76,
+  "crop_acc": 80.8,
+  "disease_acc": 58.15,
   "hp": {
     "backbone": "resnet50",
     "lr": 0.0001,
     "weight_decay": 0.0001,
-    "epochs": 1,
-    "batch_size": 16,
+    "epochs": 30,
+    "batch_size": 128,
     "optimizer": "AdamW",
     "label_smoothing": 0.1,
     "projection_dim": 128,
@@ -21,16 +21,16 @@
   },
   "robustness": {
     "brightness": {
-      "top1": 0.0,
-      "drop": 1.0
+      "top1": 52.15,
+      "drop": 1.8
     },
     "blur": {
-      "top1": 0.0,
-      "drop": 1.0
+      "top1": 34.7,
+      "drop": 19.25
     },
     "noise": {
-      "top1": 1.0,
-      "drop": 0.0
+      "top1": 28.65,
+      "drop": 25.3
     }
   }
 }
