@@ -1,0 +1,36 @@
+{
+  "model": "baseline1_independent",
+  "seen_top1": 62.1,
+  "seen_top5": 84.15,
+  "unseen_top1": 8.49,
+  "unseen_top5": 38.26,
+  "harmonic_mean": 14.94,
+  "crop_acc": 85.75,
+  "disease_acc": 64.95,
+  "hp": {
+    "backbone": "resnet50",
+    "crop_lr": 0.0001,
+    "disease_lr": 0.0003,
+    "weight_decay": 0.0001,
+    "crop_epochs": 20,
+    "disease_epochs": 20,
+    "batch_size": 64,
+    "optimizer": "AdamW",
+    "label_smoothing": 0.1,
+    "debug": false
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 61.25,
+      "drop": 0.85
+    },
+    "blur": {
+      "top1": 38.5,
+      "drop": 23.6
+    },
+    "noise": {
+      "top1": 36.35,
+      "drop": 25.75
+    }
+  }
+}
