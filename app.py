@@ -1,111 +1,101 @@
-"""Every model the app can use. The app shows a dropdown of the ones whose checkpoint exists.
-
-To add a model (for example an approach after training):
-1. Copy its model class from the notebook. It must return (crop_logits, disease_logits)
-   from forward() and have a features() method for "most similar training images".
-2. Add a builder function and one line to MODELS below.
-3. Run `python build_index.py <model name>` once.
-"""
-import timm
+"""Plant disease identification app. Run with: streamlit run app.py"""
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
+import streamlit as st
+from PIL import Image
 
-from common.config import CHECKPOINT_DIR, DEVICE, NUM_CROPS, NUM_DISEASES
+from app_model import MODELS, available_models, checkpoint_path, image_features, index_path, load_model, predict_scores
+from common.config import IMAGE_DIR
+from common.dataset import get_transforms
 
+TOP_PAIRS = 5
+TOP_SIMILAR = 5
 
-class MultiTaskNet(nn.Module):
-    """Baseline 2. Copied from baselines/baseline2_multitask.ipynb."""
-
-    def __init__(self, backbone_name, pretrained=False):
-        super().__init__()
-        self.backbone = timm.create_model(backbone_name, pretrained=pretrained, num_classes=0)
-        self.crop_head = nn.Linear(self.backbone.num_features, NUM_CROPS)
-        self.disease_head = nn.Linear(self.backbone.num_features, NUM_DISEASES)
-
-    def forward(self, images):
-        features = self.backbone(images)
-        return self.crop_head(features), self.disease_head(features)
-
-    def features(self, images):
-        return self.backbone(images)
+st.set_page_config(page_title="Plant Disease Identifier", page_icon="🌿", layout="wide")
 
 
-class IndependentNets(nn.Module):
-    """Baseline 1. Two separate classifiers, as in baselines/baseline1_independent.ipynb."""
-
-    def __init__(self, backbone_name):
-        super().__init__()
-        self.crop_model = timm.create_model(backbone_name, pretrained=False, num_classes=NUM_CROPS)
-        self.disease_model = timm.create_model(backbone_name, pretrained=False, num_classes=NUM_DISEASES)
-
-    def forward(self, images):
-        return self.crop_model(images), self.disease_model(images)
-
-    def features(self, images):
-        """Both models' pooled features side by side, each scaled to unit length."""
-        parts = [F.normalize(m.forward_head(m.forward_features(images), pre_logits=True), dim=1)
-                 for m in (self.crop_model, self.disease_model)]
-        return torch.cat(parts, dim=1)
+@st.cache_resource
+def load_resources(name):
+    """Load a model and its training-image index once, not on every click."""
+    index = torch.load(index_path(name), map_location="cpu", weights_only=False)
+    return load_model(name), index
 
 
-def build_baseline1(checkpoint):
-    model = IndependentNets(checkpoint["hp"]["backbone"])
-    model.crop_model.load_state_dict(checkpoint["state_dict"]["crop"])
-    model.disease_model.load_state_dict(checkpoint["state_dict"]["disease"])
-    return model
+def model_label(name):
+    label = MODELS[name][0]
+    return label + " (debug run)" if checkpoint_path(name).stem.endswith("_debug") else label
 
 
-def build_baseline2(checkpoint):
-    model = MultiTaskNet(checkpoint["hp"]["backbone"])
-    model.load_state_dict(checkpoint["state_dict"])
-    return model
+def pretty(name: str) -> str:
+    return str(name).replace("___", " | ").replace("_", " ")
 
 
-# Model name (same as MODEL_NAME in the notebook) -> (label in the app, builder, image normalisation)
-MODELS = {
-    "baseline2_multitask": ("Baseline 2: multi-task CNN", build_baseline2, "imagenet"),
-    "baseline1_independent": ("Baseline 1: two independent CNNs", build_baseline1, "imagenet"),
-}
+def show_top_pairs(scores, index):
+    """Top-5 crop-disease pairs with confidence in percent."""
+    crop_names, disease_names = index["crop_and_disease_names"]
+    confidence = scores.softmax(dim=0)
+    top = confidence.topk(TOP_PAIRS)
+    st.subheader("Top 5 predictions")
+    for rank, (share, pair_row) in enumerate(zip(top.values.tolist(), top.indices.tolist()), start=1):
+        crop_id, disease_id = index["pairs"][pair_row].tolist()
+        tag = "seen in training" if pair_row < index["num_seen_pairs"] else "UNSEEN pair (zero-shot)"
+        st.markdown(f"**{rank}. {pretty(crop_names[crop_id])} – {pretty(disease_names[disease_id])}**  "
+                    f"<small>({tag})</small>", unsafe_allow_html=True)
+        st.progress(share, text=f"{100 * share:.1f}%")
+    return top.indices[0].item()
 
 
-def checkpoint_path(name):
-    """Full run if it exists, otherwise the debug run (notebooks save <name>_debug.pt when DEBUG=True)."""
-    for run_name in (name, f"{name}_debug"):
-        path = CHECKPOINT_DIR / f"{run_name}.pt"
-        if path.exists():
-            return path
-    return None
+def show_similar_images(features, index):
+    """Training images closest to the upload by cosine similarity of backbone features."""
+    similarity = index["features"].float() @ features
+    top = similarity.topk(TOP_SIMILAR)
+    st.subheader("Most similar training images")
+    columns = st.columns(TOP_SIMILAR)
+    for column, score, image_number in zip(columns, top.values.tolist(), top.indices.tolist()):
+        pair_name = pretty(index["pair_names"][index["pair_rows"][image_number].item()])
+        image_path = IMAGE_DIR / index["image_files"][image_number]
+        with column:
+            if image_path.exists():
+                st.image(str(image_path), width="stretch")
+            else:
+                st.info("Image file not found locally")
+            st.caption(f"{pair_name}\n\nsimilarity {score:.2f}")
 
 
-def index_path(name):
-    """Each model has its own index, because each model's features are different."""
-    return CHECKPOINT_DIR / f"{checkpoint_path(name).stem}_index.pt"
+def main():
+    st.title("🌿 Plant Disease Identifier")
+    st.write("Upload a leaf photo. The model names the crop and the disease, "
+             "including crop-disease pairs it never saw during training.")
+    names = available_models()
+    if not names:
+        st.error("No model found. Put a trained `.pt` file in `checkpoints/`. See the README.")
+        st.stop()
+    name = st.sidebar.selectbox("Model", names, format_func=model_label)
+    st.sidebar.header("About")
+    st.sidebar.write("Dataset: DPD-Small (323 seen pairs, 10 unseen pairs)")
+    st.sidebar.write("COS30082 Applied Machine Learning")
+
+    if not index_path(name).exists():
+        st.error(f"No index for this model. Run `python build_index.py {name}` first.")
+        st.stop()
+    model, index = load_resources(name)
+
+    upload = st.file_uploader("Leaf photo", type=["jpg", "jpeg", "png", "webp"])
+    if upload is None:
+        return
+    image = Image.open(upload).convert("RGB")
+    left, right = st.columns([1, 2])
+    left.image(image, caption="Your photo", width="stretch")
+    if not right.button("Predict", type="primary"):
+        return
+
+    _, test_transform = get_transforms(MODELS[name][2])  # exactly the transform used in testing
+    batch = test_transform(image).unsqueeze(0)
+    with st.spinner("Identifying..."):
+        scores = predict_scores(model, batch, index["pairs"])[0]
+        features = image_features(model, batch)[0]
+    with right:
+        show_top_pairs(scores, index)
+    show_similar_images(features, index)
 
 
-def available_models():
-    """Model names whose checkpoint is in checkpoints/."""
-    return [name for name in MODELS if checkpoint_path(name) is not None]
-
-
-def load_model(name) -> nn.Module:
-    """Build the model from the checkpoint's own HP, so settings always match training."""
-    checkpoint = torch.load(checkpoint_path(name), map_location="cpu", weights_only=True)
-    model = MODELS[name][1](checkpoint)
-    return model.to(DEVICE).eval()
-
-
-@torch.no_grad()
-def predict_scores(model, images, pairs) -> torch.Tensor:
-    """Scores [B, 333] in get_pairs() order. Same maths as the notebooks' predict()."""
-    crop_logits, disease_logits = model(images.to(DEVICE))
-    crop_log_prob = F.log_softmax(crop_logits.float(), dim=1)
-    disease_log_prob = F.log_softmax(disease_logits.float(), dim=1)
-    pairs = pairs.to(DEVICE)
-    return (crop_log_prob[:, pairs[:, 0]] + disease_log_prob[:, pairs[:, 1]]).cpu()
-
-
-@torch.no_grad()
-def image_features(model, images) -> torch.Tensor:
-    """Unit-length features, so a dot product is the cosine similarity."""
-    return F.normalize(model.features(images.to(DEVICE)).float(), dim=1).cpu()
+main()
