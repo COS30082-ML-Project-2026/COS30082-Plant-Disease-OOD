@@ -10,11 +10,11 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from approaches.clip_improvement_core import (
+from approach3_clip_improvements.approaches.clip_improvement_core import (
     configure_visual, extract_state, interpolate, prompt_groups, strict_load, write_json,
 )
-from approaches.clip_improvement_training import training_step
-from approaches.clip_improvements import ImprovementRun, default_hp
+from approach3_clip_improvements.approaches.clip_improvement_training import training_step
+from approach3_clip_improvements.approaches.clip_improvements import ImprovementRun, default_hp
 from common.dataset import get_crop_and_disease_names, get_pairs
 
 
@@ -133,9 +133,9 @@ class ImprovementContracts(unittest.TestCase):
         run.text = lambda style: self.fail('Full baseline reused original frozen text')
         with tempfile.TemporaryDirectory() as directory:
             run.result_dir = Path(directory)
-            with patch('approaches.clip_improvements.encode_groups', return_value=torch.randn(333,4)) as encode:
-                with patch('approaches.clip_improvements.evaluation_loader', side_effect=lambda x:x):
-                    with patch('approaches.clip_improvements.evaluate', return_value={}):
+            with patch('approach3_clip_improvements.approaches.clip_improvements.encode_groups', return_value=torch.randn(333,4)) as encode:
+                with patch('approach3_clip_improvements.approaches.clip_improvements.evaluation_loader', side_effect=lambda x:x):
+                    with patch('approach3_clip_improvements.approaches.clip_improvements.evaluate', return_value={}):
                         run._evaluate('full', tuned, 'single', {})
             self.assertIs(encode.call_args.args[0], run.model)
 

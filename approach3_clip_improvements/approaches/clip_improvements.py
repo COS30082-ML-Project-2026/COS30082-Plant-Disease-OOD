@@ -18,12 +18,12 @@ import torch
 
 from common import config as cfg
 from common.evaluate import evaluate
-from approaches.clip_improvement_core import (
+from approach3_clip_improvements.approaches.clip_improvement_core import (
     check_data, checked_loaders, encode_groups, evaluation_loader, extract_state,
     file_hash, interpolate, make_predict, prompt_groups, read_checkpoint, require,
     resolve_partial_path, seed_all, strict_load, train_manifest, write_json,
 )
-from approaches.clip_improvement_training import fit_candidate, validation
+from approach3_clip_improvements.approaches.clip_improvement_training import fit_candidate, validation
 
 
 @contextmanager

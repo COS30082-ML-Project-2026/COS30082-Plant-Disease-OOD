@@ -6,11 +6,11 @@ from contextlib import nullcontext
 import torch
 import torch.nn.functional as F
 
-from approaches.clip_improvement_core import configure_visual, require, seed_all, strict_load
+from approach3_clip_improvements.approaches.clip_improvement_core import configure_visual, require, seed_all, strict_load
 
 
 def validation(model, text, loader, pairs):
-    from approaches.clip_improvement_core import make_predict
+    from approach3_clip_improvements.approaches.clip_improvement_core import make_predict
     predict = make_predict(model, text, pairs)
     correct, count, loss_sum = 0, 0, 0.0
     with torch.no_grad():

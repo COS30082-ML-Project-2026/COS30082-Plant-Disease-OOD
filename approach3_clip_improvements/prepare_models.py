@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 from urllib.request import urlopen
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 NAME = 'approach3_clip_6.pt'
 SHA256 = '5c99701e2abfaa1706adf5761efb2cb290537b7f350f5f994a8480fe0c9cf403'
 URL = ('https://github.com/COS30082-ML-Project-2026/COS30082-Plant-Disease-OOD/'

@@ -16,7 +16,7 @@ def main():
     parser.add_argument('--full', action='store_true', help='Full data and training; default is DEBUG.')
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
-    partial = root / 'checkpoints/approach3_clip/approach3_clip_6.pt'
+    partial = root.parent / 'checkpoints/approach3_clip/approach3_clip_6.pt'
     if not partial.is_file():
         raise SystemExit('Run python prepare_models.py first.')
     os.environ['CLIP_PARTIAL6'] = str(partial)
@@ -25,13 +25,13 @@ def main():
     if args.full:
         cell = next(c for c in notebook.cells if c.cell_type == 'code' and 'DEBUG = True' in c.source)
         cell.source = cell.source.replace('DEBUG = True', 'DEBUG = False', 1)
-    output = root / 'checkpoints/executions'
+    output = root.parent / 'checkpoints/executions'
     output.mkdir(parents=True, exist_ok=True)
     name = ('full_' if args.full else 'debug_') + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     path = output / (name + '_' + uuid4().hex[:8] + '.ipynb')
     manager = KernelManager(kernel_name='python3')
     manager.kernel_spec.argv = [sys.executable, '-m', 'ipykernel_launcher', '-f', '{connection_file}']
-    client = NotebookClient(notebook, km=manager, timeout=None, resources={'metadata': {'path': str(root)}})
+    client = NotebookClient(notebook, km=manager, timeout=None, resources={'metadata': {'path': str(root.parent)}})
     print('Interpreter:', sys.executable, '\nMode:', 'FULL' if args.full else 'DEBUG', flush=True)
     try:
         client.execute()
