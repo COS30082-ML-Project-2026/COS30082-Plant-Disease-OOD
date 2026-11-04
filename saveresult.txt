@@ -1,0 +1,16 @@
+from pathlib import Path
+from zipfile import ZipFile
+from google.colab import files
+
+zip_path = Path.cwd() / f"{RUN_NAME}_results.zip"
+
+result_files = list(config.RESULTS_DIR.glob(f"{RUN_NAME}*"))
+checkpoint_file = CHECKPOINT_DIR / f"{RUN_NAME}.pt"
+files_to_save = result_files + ([checkpoint_file] if checkpoint_file.exists() else [])
+
+with ZipFile(zip_path, "w") as archive:
+    for path in files_to_save:
+        archive.write(path, arcname=path.name)
+
+print("Bundled:", [p.name for p in files_to_save])
+files.download(str(zip_path))
