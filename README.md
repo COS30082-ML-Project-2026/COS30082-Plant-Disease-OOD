@@ -7,21 +7,16 @@ conda activate cos30082mlp
 Dataset:
 https://huggingface.co/datasets/print1Username/COS30082-Machine-Learning-Project.dataset
 
-```cmd
-## Update Python Package
 
-# Upgrade
+## Update Python Package
+```cmd
 python -m pip install --upgrade pip
 ```
-
-```
-
 ## Install Requirements (CUDA Version)
 ```
 pip install -r requirements.txt
 
 ```
-
 ## Run Application
 Download Dataset:
 ```cmd
