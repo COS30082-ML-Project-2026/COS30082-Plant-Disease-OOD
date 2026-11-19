@@ -1,0 +1,122 @@
+[
+  {
+    "epoch": 1,
+    "val_top1": 22.65,
+    "crop_loss_last_batch": 3.2003347873687744,
+    "disease_loss_last_batch": 3.277994155883789
+  },
+  {
+    "epoch": 2,
+    "val_top1": 44.92,
+    "crop_loss_last_batch": 2.3485116958618164,
+    "disease_loss_last_batch": 2.308990240097046
+  },
+  {
+    "epoch": 3,
+    "val_top1": 58.82,
+    "crop_loss_last_batch": 1.827283263206482,
+    "disease_loss_last_batch": 2.1769094467163086
+  },
+  {
+    "epoch": 4,
+    "val_top1": 67.57,
+    "crop_loss_last_batch": 1.3782458305358887,
+    "disease_loss_last_batch": 1.7238998413085938
+  },
+  {
+    "epoch": 5,
+    "val_top1": 70.79,
+    "crop_loss_last_batch": 1.4119315147399902,
+    "disease_loss_last_batch": 1.550652027130127
+  },
+  {
+    "epoch": 6,
+    "val_top1": 74.77,
+    "crop_loss_last_batch": 1.1517820358276367,
+    "disease_loss_last_batch": 1.3421192169189453
+  },
+  {
+    "epoch": 7,
+    "val_top1": 76.83,
+    "crop_loss_last_batch": 0.9611732959747314,
+    "disease_loss_last_batch": 1.2437560558319092
+  },
+  {
+    "epoch": 8,
+    "val_top1": 77.48,
+    "crop_loss_last_batch": 1.0861802101135254,
+    "disease_loss_last_batch": 1.2043592929840088
+  },
+  {
+    "epoch": 9,
+    "val_top1": 79.15,
+    "crop_loss_last_batch": 1.0646531581878662,
+    "disease_loss_last_batch": 1.222203254699707
+  },
+  {
+    "epoch": 10,
+    "val_top1": 79.15,
+    "crop_loss_last_batch": 1.0183241367340088,
+    "disease_loss_last_batch": 1.134534478187561
+  },
+  {
+    "epoch": 11,
+    "val_top1": 78.64,
+    "crop_loss_last_batch": 0.836672842502594,
+    "disease_loss_last_batch": 0.9715023636817932
+  },
+  {
+    "epoch": 12,
+    "val_top1": 79.79,
+    "crop_loss_last_batch": 0.9003678560256958,
+    "disease_loss_last_batch": 0.9916125535964966
+  },
+  {
+    "epoch": 13,
+    "val_top1": 81.6,
+    "crop_loss_last_batch": 0.9387282133102417,
+    "disease_loss_last_batch": 0.9350697994232178
+  },
+  {
+    "epoch": 14,
+    "val_top1": 80.69,
+    "crop_loss_last_batch": 0.8518273830413818,
+    "disease_loss_last_batch": 1.039384365081787
+  },
+  {
+    "epoch": 15,
+    "val_top1": 81.21,
+    "crop_loss_last_batch": 0.9330432415008545,
+    "disease_loss_last_batch": 0.9549705386161804
+  },
+  {
+    "epoch": 16,
+    "val_top1": 80.95,
+    "crop_loss_last_batch": 0.8653447031974792,
+    "disease_loss_last_batch": 1.0263835191726685
+  },
+  {
+    "epoch": 17,
+    "val_top1": 80.95,
+    "crop_loss_last_batch": 0.9364220499992371,
+    "disease_loss_last_batch": 0.9499050378799438
+  },
+  {
+    "epoch": 18,
+    "val_top1": 81.85,
+    "crop_loss_last_batch": 0.8791756629943848,
+    "disease_loss_last_batch": 0.9718756079673767
+  },
+  {
+    "epoch": 19,
+    "val_top1": 82.37,
+    "crop_loss_last_batch": 0.8635742664337158,
+    "disease_loss_last_batch": 0.9575034379959106
+  },
+  {
+    "epoch": 20,
+    "val_top1": 81.98,
+    "crop_loss_last_batch": 0.8502086400985718,
+    "disease_loss_last_batch": 0.9467118978500366
+  }
+]
