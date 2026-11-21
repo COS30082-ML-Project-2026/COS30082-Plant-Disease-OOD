@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "clip_fraction": 0.8,
+  "dino_fraction": 0.2,
+  "fusion_calibration": "per-image population z-score; DINO over unique crop prototypes before gathering pair columns",
+  "weight_selection": "fixed a priori; no validation or test search",
+  "prototype_source": "original 7223-image optimization-training partition only",
+  "dino_repository": "facebook/dinov2-base",
+  "dino_revision": "main",
+  "dino_batch_size": 32,
+  "dino_pooling": "last_hidden_state[:, 0, :] (CLS)",
+  "e1_asset_id": 708998246,
+  "e1_sha256": "d4d8fca674acb5f3be06b9790a8d8f62c368ba2b85426d13232874c92427392f",
+  "e1_bytes": 598606113,
+  "reference_asset_id": 708985581,
+  "reproduction_tolerance_percentage_points": 0.005
+}
