@@ -1,0 +1,21 @@
+{
+  "common\\config.py": "c643d3d1cbdd92888f162a8d8c6bb5e0324732e535570a4dc9fb0c52085bd826",
+  "common\\dataset.py": "9cdc3f8a7168c2f00a3d45eff9a0065cc55dceea96387aeba1ae4f8bb9c1ca53",
+  "common\\evaluate.py": "bbd4e2d9f0e6b81153346efe0ac2b885c530e0fbe64a4c582100c67331e5aab2",
+  "common\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "requirements.txt": "e7c1071a59cda640ae01d6bf115dfe66abea6a60944387c4cc5818ad6693a5ca",
+  "approaches\\approach3_clip.ipynb": "1b8995fb27601be2bb85302e19e3d6eb5abcd6e194fa1d069fc37b9bcc510dbc",
+  "approach3_clip_improvements\\prepare_models.py": "4f15953dbfc7ed98b77f2aa51a98ea228ae138f6f34aa43b8f1fb99a48a7b784",
+  "approach3_clip_improvements\\run_school.py": "ba6211f021e6eaa9e1f3946a3728ddc438ea0da349461b1e5b900a2411107e4f",
+  "approach3_clip_improvements\\__init__.py": "0632d9a8b275a7aad62886b4264527a55295a8bd60ceeaecdd9bd4327d370f51",
+  "approach3_clip_improvements\\approaches\\clip_improvements.py": "7b3c3a02aa641c38b43226c4548b5c2ac84efb4560f52f2d8c8aacea45213b8a",
+  "approach3_clip_improvements\\approaches\\clip_improvement_core.py": "f9be3ca7c3da4f779ef918dcaa4d0bf3333029794be06336024834f2b4455cab",
+  "approach3_clip_improvements\\approaches\\clip_improvement_training.py": "97aabd7ffe0e3f2002034c60ae5db88a854fcaba6671c8b5c30c7f721d4a4a46",
+  "approach3_clip_improvements\\tests\\test_clip_improvements.py": "d9fa41a3fcaf315382819d6f68f47ca94cef7856a6b5dcfd88f901b1f6921fda",
+  "data\\DPD_Small_test_seen.csv": "45d31d48d2260f56cc28871b44434b5243100dc90dc95652c28c377b35b45e83",
+  "data\\DPD_Small_test_unseen.csv": "757e3c1fdcc894004a69c21dbc00d6b818f563aa671db9ab8d315c4790c2490b",
+  "data\\DPD_Small_train.csv": "9f1b729ab08f120c9e8d3a5681aa1ccbdf1d9210f9aaa6143959363dcb106a7d",
+  "data\\test_seen.csv": "45d31d48d2260f56cc28871b44434b5243100dc90dc95652c28c377b35b45e83",
+  "data\\test_unseen.csv": "757e3c1fdcc894004a69c21dbc00d6b818f563aa671db9ab8d315c4790c2490b",
+  "data\\train.csv": "9f1b729ab08f120c9e8d3a5681aa1ccbdf1d9210f9aaa6143959363dcb106a7d"
+}

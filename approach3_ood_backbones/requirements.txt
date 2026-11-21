@@ -1,0 +1,5 @@
+# Additional dependencies only. Install root requirements in a new environment first.
+# Pin the stable tensor-returning SigLIP2 API; newer major versions need re-audit.
+transformers==4.52.2
+sentencepiece>=0.2,<0.3
+safetensors>=0.5,<1
