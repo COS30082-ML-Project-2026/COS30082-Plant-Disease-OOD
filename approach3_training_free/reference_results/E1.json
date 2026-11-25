@@ -1,0 +1,81 @@
+{
+  "model": "E1_wise",
+  "seen_top1": 68.1,
+  "seen_top5": 89.7,
+  "unseen_top1": 15.06,
+  "unseen_top5": 56.35,
+  "harmonic_mean": 24.67,
+  "crop_acc": 90.75,
+  "disease_acc": 70.55,
+  "hp": {
+    "alpha": 0.75,
+    "alpha_history": [
+      {
+        "alpha": 0.0,
+        "top1": 3.86,
+        "loss": 5.095098156112808,
+        "samples": 777
+      },
+      {
+        "alpha": 0.25,
+        "top1": 36.04,
+        "loss": 2.4566251857246977,
+        "samples": 777
+      },
+      {
+        "alpha": 0.5,
+        "top1": 78.25,
+        "loss": 0.773308689769554,
+        "samples": 777
+      },
+      {
+        "alpha": 0.75,
+        "top1": 85.33,
+        "loss": 0.5062907367376575,
+        "samples": 777
+      },
+      {
+        "alpha": 1.0,
+        "top1": 84.81,
+        "loss": 0.538079026518054,
+        "samples": 777
+      }
+    ],
+    "retrained": false,
+    "trainable_parameters": 0,
+    "experiment": "E1_wise",
+    "prompt_style": "single",
+    "samples": {
+      "train": 7223,
+      "validation": 777,
+      "seen": 2000,
+      "unseen": 1448
+    },
+    "split": {
+      "train": "df068df40f528050d8b750d43163e43fa1cfc0fb92ccebe13b054675f243b3c4",
+      "validation": "5a3c87dd273f9aac2a09e535bd06936ae33855ed3c73df2dc7bac25d67abbcbe",
+      "train_count": 7223,
+      "validation_count": 777,
+      "note": "Original shared per-pair image split. No proxy split or extra held-out pairs."
+    },
+    "validation_only": true,
+    "text_frozen": true,
+    "checkpoint_ephemeral": false,
+    "checkpoint": "/workspace/COS30082-Plant-Disease-OOD/checkpoints/clip_improvements/full_20261104T083648Z_b0b759d8/E1_wise.pt",
+    "debug": false
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 67.4,
+      "drop": 0.7
+    },
+    "blur": {
+      "top1": 53.4,
+      "drop": 14.7
+    },
+    "noise": {
+      "top1": 53.75,
+      "drop": 14.35
+    }
+  }
+}

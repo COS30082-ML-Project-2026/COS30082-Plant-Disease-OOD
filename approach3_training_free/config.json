@@ -1,0 +1,21 @@
+{
+  "seed": 42,
+  "steps": ["T1"],
+  "checkpoint_dir": "checkpoints/training_free_inputs",
+  "score_caches": {"E1": null, "E3": null, "E4": null},
+  "dino_cache": null,
+  "bias": 0.5,
+  "clip_fraction": 0.8,
+  "ensemble_weights": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333],
+  "tta_views": ["identity", "horizontal_flip"],
+  "dino_repository": "facebook/dinov2-base",
+  "dino_revision": "main",
+  "dino_pooling": "last_hidden_state[:, 0, :] (CLS)",
+  "dino_batch_size": 4,
+  "reproduction_tolerance": 0.005,
+  "models": {
+    "E1": {"name": "E1_wise", "asset_id": 708998246, "bytes": 598606113, "sha256": "d4d8fca674acb5f3be06b9790a8d8f62c368ba2b85426d13232874c92427392f"},
+    "E3": {"name": "E3_preserve", "asset_id": 708996071, "bytes": 598616545, "sha256": "7e7fa815c895ac3f851ba4d2d4eaf8c0e58edc37129faea33c323a0fca24bce4"},
+    "E4": {"name": "E4_visual_full", "asset_id": 709001293, "bytes": 598615393, "sha256": "a62abf5e66a85d0a2dab92ac4f37fd492fd3a704ba8b54131746a23fd9184b78"}
+  }
+}
