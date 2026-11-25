@@ -1,6 +1,15 @@
-"""Data loading for DPD-Small. The only way notebooks should read images or labels."""
+"""DPD-Small datasets, with a strict training / final-test boundary.
+
+NO official test CSV (including test_seen.csv) is read by:
+  get_pairs, get_pair_names, get_crop_and_disease_names, load_split(TRAIN_CSV),
+  get_train_val_loaders, or get_compositional_dev_loaders.
+
+Use get_final_test_loaders(..., final_evaluation=True) *only after* the model,
+checkpoint, hyperparameters and prediction rule are locked.
+"""
 from functools import lru_cache
 
+import numpy as np
 import pandas as pd
 import torch
 from PIL import Image
@@ -9,132 +18,79 @@ from torchvision import transforms
 
 from common import config
 
-# CSV columns by position, so header spelling in the files does not matter
 COLUMNS = ["image", "crop", "disease", "pair_label", "crop_name", "disease_name", "pair_name"]
 
 
 def read_csv(csv_path) -> pd.DataFrame:
-    """Read a metadata CSV and drop the header row if the file has one."""
+    """Read an explicitly specified CSV. Call with test paths only in final eval."""
     frame = pd.read_csv(csv_path, header=None, names=COLUMNS, dtype=str)
-    if not frame.loc[0, "crop"].strip().isdigit():
+    if frame.empty:
+        raise ValueError(f"Empty metadata file: {csv_path}")
+    if not str(frame.iloc[0]["crop"]).strip().isdigit():
         frame = frame.iloc[1:]
-    for column in ["crop", "disease", "pair_label"]:
-        frame[column] = frame[column].astype(int)
+    for column in ("crop", "disease", "pair_label"):
+        frame[column] = pd.to_numeric(frame[column], errors="raise").astype(int)
     return frame.reset_index(drop=True)
 
 
-@lru_cache(maxsize=1)
-def _pair_table() -> pd.DataFrame:
-    """One row per pair: 323 seen pairs (sorted by CSV pair label), then 10 unseen pairs."""
-    seen = pd.concat([read_csv(config.TRAIN_CSV), read_csv(config.TEST_SEEN_CSV)])
-    unseen = read_csv(config.TEST_UNSEEN_CSV)
-    keep = ["crop", "disease", "pair_name", "pair_label"]
-    seen_pairs = seen[keep].drop_duplicates(["crop", "disease"]).sort_values("pair_label")
-    unseen_pairs = unseen[keep].drop_duplicates(["crop", "disease"]).sort_values("pair_label")
-    table = pd.concat([seen_pairs, unseen_pairs]).reset_index(drop=True)
-    # Unseen CSV labels may reuse seen numbers, so pairs are keyed by (crop, disease)
-    assert len(seen_pairs) == config.NUM_SEEN_PAIRS, f"{len(seen_pairs)} seen pairs found"
-    assert len(unseen_pairs) == config.NUM_UNSEEN_PAIRS, f"{len(unseen_pairs)} unseen pairs found"
-    return table
+def _check_concepts(frame: pd.DataFrame) -> None:
+    if not frame["crop"].between(0, config.NUM_CROPS - 1).all():
+        raise ValueError("Crop ID outside 0..54")
+    if not frame["disease"].between(0, config.NUM_DISEASES - 1).all():
+        raise ValueError("Disease ID outside 0..174")
+
+
+def pair_id(crop_id: int, disease_id: int) -> int:
+    """Stable, test-independent 0..9624 mapping."""
+    if not (0 <= int(crop_id) < config.NUM_CROPS and
+            0 <= int(disease_id) < config.NUM_DISEASES):
+        raise ValueError(f"Invalid crop/disease IDs: {(crop_id, disease_id)}")
+    return int(crop_id) * config.NUM_DISEASES + int(disease_id)
 
 
 def get_pairs() -> torch.LongTensor:
-    """[333, 2] tensor. Row i = (crop_id, disease_id) of pair i."""
-    return torch.tensor(_pair_table()[["crop", "disease"]].values, dtype=torch.long)
+    """[9625, 2]; all Cartesian candidates, built WITHOUT opening test CSVs."""
+    return torch.cartesian_prod(
+        torch.arange(config.NUM_CROPS, dtype=torch.long),
+        torch.arange(config.NUM_DISEASES, dtype=torch.long),
+    )
+
+
+@lru_cache(maxsize=1)
+def get_seen_pair_table() -> pd.DataFrame:
+    """The 323 *training* pair identities, sorted by their CSV pair label."""
+    frame = read_csv(config.TRAIN_CSV)
+    _check_concepts(frame)
+    seen = (frame[COLUMNS[1:]].drop_duplicates(["crop", "disease"])
+            .sort_values(["pair_label", "crop", "disease"]).reset_index(drop=True))
+    if len(seen) != config.NUM_SEEN_PAIRS:
+        raise ValueError(
+            f"Training contains {len(seen)} unique pairs, expected {config.NUM_SEEN_PAIRS}"
+        )
+    seen["pair_row"] = seen["crop"] * config.NUM_DISEASES + seen["disease"]
+    return seen
+
+
+@lru_cache(maxsize=1)
+def get_crop_and_disease_names() -> tuple:
+    """Concept names from *train.csv only*, never official test metadata.
+
+    IDs not named in train.csv receive neutral fallback tokens, e.g. 'crop_12'.
+    These fallbacks must not be silently replaced using test-unseen labels.
+    """
+    frame = read_csv(config.TRAIN_CSV)
+    _check_concepts(frame)
+    crop_names = dict(zip(frame["crop"], frame["crop_name"]))
+    disease_names = dict(zip(frame["disease"], frame["disease_name"]))
+    return (
+        {i: str(crop_names.get(i, f"crop_{i}")) for i in range(config.NUM_CROPS)},
+        {i: str(disease_names.get(i, f"disease_{i}")) for i in range(config.NUM_DISEASES)},
+    )
 
 
 def get_pair_names() -> list:
-    """Pair names in the same order as get_pairs()."""
-    return _pair_table()["pair_name"].tolist()
-
-
-def get_crop_and_disease_names() -> tuple:
-    """Two dicts: crop_id -> crop name, disease_id -> disease name (all three CSVs)."""
-    frames = [read_csv(path) for path in (config.TRAIN_CSV, config.TEST_SEEN_CSV, config.TEST_UNSEEN_CSV)]
-    every_row = pd.concat(frames)
-    crop_names = dict(zip(every_row["crop"].tolist(), every_row["crop_name"]))
-    disease_names = dict(zip(every_row["disease"].tolist(), every_row["disease_name"]))
-    return crop_names, disease_names
-
-
-def load_split(csv_path) -> pd.DataFrame:
-    """Metadata plus pair_row, the row of each image's pair in get_pairs()."""
-    frame = read_csv(csv_path)
-    row_of_pair = {(c, d): i for i, (c, d) in enumerate(get_pairs().tolist())}
-    frame["pair_row"] = [row_of_pair[(c, d)] for c, d in zip(frame["crop"], frame["disease"])]
-    return frame
-
-
-def get_transforms(norm: str = "imagenet") -> tuple:
-    """Train and test transforms. norm picks ImageNet or CLIP mean and std."""
-    normalise = transforms.Normalize(*config.NORM_STATS[norm])
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(config.IMAGE_SIZE, scale=(0.7, 1.0)),
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(15),
-        transforms.ColorJitter(0.2, 0.2, 0.2),
-        transforms.ToTensor(),
-        normalise,
-    ])
-    test_transform = transforms.Compose([
-        transforms.Resize(config.RESIZE_SIZE),
-        transforms.CenterCrop(config.IMAGE_SIZE),
-        transforms.ToTensor(),
-        normalise,
-    ])
-    return train_transform, test_transform
-
-
-class PlantDataset(Dataset):
-    """Returns (image, crop_label, disease_label, pair_label) for one row of a split."""
-
-    def __init__(self, frame: pd.DataFrame, transform, norm: str):
-        self.frame = frame.reset_index(drop=True)
-        self.transform = transform
-        self.norm_mean, self.norm_std = config.NORM_STATS[norm]  # evaluate() needs these for robust mode
-
-    def __len__(self):
-        return len(self.frame)
-
-    def __getitem__(self, index):
-        row = self.frame.iloc[index]
-        image = Image.open(config.IMAGE_DIR / row["image"]).convert("RGB")
-        return self.transform(image), row["crop"], row["disease"], row["pair_row"]
-
-
-def _split_train_val(train_frame: pd.DataFrame) -> tuple:
-    """10% of each pair goes to val. Pairs with very few images stay in train."""
-    val_frame = train_frame.groupby("pair_row").sample(frac=config.VAL_FRACTION, random_state=config.SEED)
-    return train_frame.drop(val_frame.index), val_frame
-
-
-def _subset(frame, size):
-    return frame.sample(min(size, len(frame)), random_state=config.SEED)
-
-
-def _make_loader(frame, transform, norm, batch_size, shuffle):
-    generator = torch.Generator().manual_seed(config.SEED)
-    return DataLoader(
-        PlantDataset(frame, transform, norm), batch_size=batch_size, shuffle=shuffle,
-        num_workers=config.NUM_WORKERS, pin_memory=torch.cuda.is_available(), generator=generator,
-        persistent_workers=config.NUM_WORKERS > 0,
-    )
-
-
-def get_loaders(batch_size: int, norm: str = "imagenet", debug: bool = False) -> tuple:
-    """train_loader, val_loader, seen_loader, unseen_loader. debug=True uses small subsets."""
-    train_transform, test_transform = get_transforms(norm)
-    train_frame, val_frame = _split_train_val(load_split(config.TRAIN_CSV))
-    seen_frame = load_split(config.TEST_SEEN_CSV)
-    unseen_frame = load_split(config.TEST_UNSEEN_CSV)
-    if debug:
-        train_frame = _subset(train_frame, config.DEBUG_TRAIN_SIZE)
-        val_frame = _subset(val_frame, config.DEBUG_VAL_SIZE)
-        seen_frame = _subset(seen_frame, config.DEBUG_TEST_SIZE)
-        unseen_frame = _subset(unseen_frame, config.DEBUG_TEST_SIZE)
-    return (
-        _make_loader(train_frame, train_transform, norm, batch_size, shuffle=True),
-        _make_loader(val_frame, test_transform, norm, batch_size, shuffle=False),
-        _make_loader(seen_frame, test_transform, norm, batch_size, shuffle=False),
-        _make_loader(unseen_frame, test_transform, norm, batch_size, shuffle=False),
-    )
+    """9625 pair names, constructed from *training-only* concept names."""
+    crops, diseases = get_crop_and_disease_names()
+    return [f"{crops[c]} + {diseases[d]}"
+            for c in range(config.NUM_CROPS)
+            for d in range(config.NUM_DISEASES)]
