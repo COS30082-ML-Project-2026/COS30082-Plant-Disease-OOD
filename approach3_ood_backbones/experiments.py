@@ -14,6 +14,7 @@ from PIL import Image
 
 from common import config as cfg
 from common.dataset import get_crop_and_disease_names, get_pairs
+from common.evaluate import harmonic_mean
 from approach3_ood_backbones.adapters import load_adapter, versions
 from approach3_ood_backbones.data import shared_frames, compositional_split, signature
 from approach3_ood_backbones.factorized import combine, select_weights
@@ -116,7 +117,7 @@ def score_report(seen_scores, unseen_scores, frames, pairs):
         subsets[name] = metrics(combined_scores[mask], torch.tensor(combined_frame.pair_row.to_numpy())[mask], pairs)
     summaries = {name + '_' + key: value[key] for name, value in subsets.items() for key in ('samples', 'top1', 'top5')}
     return dict(seen_top1=a, seen_top5=seen['top5'], unseen_top1=b, unseen_top5=unseen['top5'],
-                harmonic_mean=round(2*a*b/(a+b), 2) if a+b else 0.0,
+                harmonic_mean=harmonic_mean(a, b),
                 crop_acc=seen['crop_acc'], disease_acc=seen['disease_acc'],
                 unseen_split_crop_acc=unseen['crop_acc'], unseen_split_disease_acc=unseen['disease_acc'],
                 **summaries,
