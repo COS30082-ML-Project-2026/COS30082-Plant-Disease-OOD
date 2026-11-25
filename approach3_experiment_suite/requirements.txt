@@ -1,5 +1,0 @@
-# Install root requirements first, in a separate Python 3.11 environment.
--r ../approach3_ood_backbones/requirements.txt
-nbclient>=0.10,<0.11
-nbformat>=5.10,<6
-ipykernel>=6.29,<8
