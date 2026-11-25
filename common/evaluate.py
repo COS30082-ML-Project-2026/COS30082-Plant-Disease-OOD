@@ -62,7 +62,7 @@ def harmonic_mean(seen_top1: float, unseen_top1: float) -> float:
 
 def val_accuracy(predict, val_loader) -> float:
     """Seen-development Top-1 (all 9625 candidates), no test CSV reads."""
-    if getattr(val_loader.dataset, "role", None) not in ("seen_dev",):
+    if _role(val_loader) != "seen_dev":
         raise ValueError("val_accuracy requires a training-derived seen-dev loader")
     scores, labels = collect_scores(predict, val_loader)
     return top_k_accuracy(scores, labels, 1)
@@ -70,14 +70,14 @@ def val_accuracy(predict, val_loader) -> float:
 
 def development_metrics(predict, seen_val_loader, pseudo_unseen_loader) -> dict:
     """Use only TRAIN-derived development splits for hyperparameter selection."""
-    if (getattr(seen_val_loader.dataset, "role", None) != "seen_dev" or
-            getattr(pseudo_unseen_loader.dataset, "role", None) != "pseudo_unseen_dev"):
+    if (_role(seen_val_loader) != "seen_dev" or _role(pseudo_unseen_loader) != "pseudo_unseen_dev"):
         raise ValueError("Development metrics require train-only seen/pseudo-unseen loaders")
     seen_scores, seen_y = collect_scores(predict, seen_val_loader)
     held_scores, held_y = collect_scores(predict, pseudo_unseen_loader)
     seen, unseen = top_k_accuracy(seen_scores, seen_y, 1), top_k_accuracy(held_scores, held_y, 1)
     return {
         "seen_top1": seen,
+        "seen_top5": top_k_accuracy(seen_scores, seen_y, 5),
         "pseudo_unseen_top1": unseen,
         "pseudo_unseen_top5": top_k_accuracy(held_scores, held_y, 5),
         "harmonic_mean": harmonic_mean(seen, unseen),
@@ -94,3 +94,83 @@ def concept_accuracy(scores, labels) -> tuple:
 
 
 def save_confusion(scores, labels, model_name) -> None:
+    """Save a compact seen confusion plot and exact counts for every prediction."""
+    seen_pairs = get_seen_pair_table()["pair_row"].tolist()
+    observed = pd.DataFrame({
+        "true_pair_id": labels.cpu().tolist(),
+        "predicted_pair_id": scores.argmax(dim=1).cpu().tolist(),
+    })
+    if not observed["true_pair_id"].isin(seen_pairs).all():
+        raise ValueError("Seen confusion matrix requires only train-observed ground-truth pairs")
+    config.RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    sparse = observed.value_counts(sort=False).rename("count").reset_index()
+    sparse.to_csv(config.RESULTS_DIR / f"{model_name}_confusion_sparse.csv", index=False)
+
+    other = -1
+    compact_predicted = observed["predicted_pair_id"].where(
+        observed["predicted_pair_id"].isin(seen_pairs), other)
+    table = pd.crosstab(observed["true_pair_id"], compact_predicted).reindex(
+        index=seen_pairs, columns=[*seen_pairs, other], fill_value=0)
+    table = table.rename(columns={other: "outside_training_pairs"})
+    table.to_csv(config.RESULTS_DIR / f"{model_name}_confusion.csv")
+    row_share = table.div(table.sum(axis=1).clip(lower=1), axis=0)
+
+    figure, axis = plt.subplots(figsize=(12, 10))
+    image = axis.imshow(row_share.to_numpy(), cmap="viridis", aspect="auto", vmin=0, vmax=1)
+    axis.axvline(len(seen_pairs) - 0.5, color="red", linewidth=0.8)
+    axis.set(title=f"{model_name}: seen test confusion (row-normalised)",
+             xlabel="Predicted pair (last column = outside training)", ylabel="True train pair")
+    figure.colorbar(image, ax=axis)
+    figure.savefig(config.RESULTS_DIR / f"{model_name}_confusion.png", dpi=150, bbox_inches="tight")
+    plt.close(figure)
+
+
+def _role(loader):
+    return getattr(getattr(loader, "dataset", None), "role", None)
+
+
+def robustness(predict, seen_loader, clean_top1) -> dict:
+    """Seen Top-1 under each perturbation using the same noise seed for each model."""
+    report = {}
+    with torch.random.fork_rng(devices=[]):
+        torch.random.default_generator.manual_seed(config.SEED)
+        for name, perturb in PERTURBATIONS.items():
+            scores, labels = collect_scores(predict, seen_loader, perturb)
+            top1 = top_k_accuracy(scores, labels, 1)
+            report[name] = {"top1": top1, "drop": round(clean_top1 - top1, 2)}
+    return report
+
+
+def evaluate(predict, seen_loader, unseen_loader, model_name, hp, robust=False) -> dict:
+    """Report official results for loaders opened explicitly after model selection."""
+    if (_role(seen_loader), _role(unseen_loader)) != ("official_seen", "official_unseen"):
+        raise ValueError("Use get_final_test_loaders(..., final_evaluation=True) after locking the model")
+    seen_scores, seen_labels = collect_scores(predict, seen_loader)
+    unseen_scores, unseen_labels = collect_scores(predict, unseen_loader)
+    seen_top1 = top_k_accuracy(seen_scores, seen_labels, 1)
+    unseen_top1 = top_k_accuracy(unseen_scores, unseen_labels, 1)
+    crop_acc, disease_acc = concept_accuracy(seen_scores, seen_labels)
+    unseen_crop_acc, unseen_disease_acc = concept_accuracy(unseen_scores, unseen_labels)
+    results = {
+        "model": model_name,
+        "candidate_protocol": config.CANDIDATE_PROTOCOL,
+        "candidate_count": config.NUM_PAIRS,
+        "seen_top1": seen_top1,
+        "seen_top5": top_k_accuracy(seen_scores, seen_labels, 5),
+        "unseen_top1": unseen_top1,
+        "unseen_top5": top_k_accuracy(unseen_scores, unseen_labels, 5),
+        "harmonic_mean": harmonic_mean(seen_top1, unseen_top1),
+        "crop_acc": crop_acc,
+        "disease_acc": disease_acc,
+        "unseen_crop_acc": unseen_crop_acc,
+        "unseen_disease_acc": unseen_disease_acc,
+        "hp": hp,
+    }
+    del unseen_scores
+    if robust:
+        results["robustness"] = robustness(predict, seen_loader, seen_top1)
+    save_confusion(seen_scores, seen_labels, model_name)
+    with (config.RESULTS_DIR / f"{model_name}.json").open("w", encoding="utf-8") as file:
+        json.dump(results, file, indent=2)
+    print(json.dumps({key: value for key, value in results.items() if key != "hp"}, indent=2))
+    return results
