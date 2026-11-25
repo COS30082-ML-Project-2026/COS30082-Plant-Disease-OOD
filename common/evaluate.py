@@ -47,23 +47,29 @@ def harmonic_mean(seen_top1: float, unseen_top1: float) -> float:
 
 
 def val_accuracy(predict, val_loader) -> float:
-    """Top-1 over all 333 pairs on the val split. Use this to pick the best epoch."""
+    """Top-1 over 323 training-derived pairs. Never select using unseen candidates."""
+    if getattr(val_loader.dataset, 'role', None) != 'seen_dev':
+        raise ValueError('Validation requires the training-derived validation loader.')
     scores, labels = collect_scores(predict, val_loader)
+    if scores.ndim != 2 or scores.shape[1] != config.NUM_SEEN_PAIRS:
+        raise ValueError('Validation predict() must return [B, 323], without official unseen candidates.')
     return top_k_accuracy(scores, labels, 1)
 
 
-def concept_accuracy(scores, labels) -> tuple:
+def concept_accuracy(scores, labels, *, final_evaluation=False) -> tuple:
     """Crop and disease accuracy read from the top pair, so any model can be scored."""
-    pairs = get_pairs()
+    pairs = get_pairs(final_evaluation=final_evaluation)
     predicted, true = pairs[scores.argmax(dim=1)], pairs[labels]
     crop_acc = 100 * (predicted[:, 0] == true[:, 0]).float().mean().item()
     disease_acc = 100 * (predicted[:, 1] == true[:, 1]).float().mean().item()
     return round(crop_acc, 2), round(disease_acc, 2)
 
 
-def save_confusion(scores, labels, model_name) -> None:
+def save_confusion(scores, labels, model_name, *, final_evaluation=False) -> None:
     """Rows: 323 true seen pairs. Columns: all 333 predicted pairs, so mistakes into unseen pairs show."""
-    names = get_pair_names()
+    if not final_evaluation:
+        raise ValueError('Official confusion matrices require explicit final evaluation.')
+    names = get_pair_names(final_evaluation=True)
     counts = torch.zeros(config.NUM_SEEN_PAIRS, config.NUM_PAIRS, dtype=torch.long)
     counts.index_put_((labels, scores.argmax(dim=1)), torch.ones_like(labels), accumulate=True)
     table = pd.DataFrame(counts.numpy(), index=names[:config.NUM_SEEN_PAIRS], columns=names)
@@ -92,22 +98,26 @@ def robustness(predict, seen_loader, clean_top1) -> dict:
 
 def evaluate(predict, seen_loader, unseen_loader, model_name, hp, robust=False) -> dict:
     """Score a model, print the results and write results/<model_name>.json and confusion files."""
+    if (getattr(getattr(seen_loader, 'dataset', None), 'role', None),
+            getattr(getattr(unseen_loader, 'dataset', None), 'role', None)) != ('official_seen', 'official_unseen'):
+        raise ValueError('Use get_final_test_loaders(..., final_evaluation=True) only after selection is frozen.')
     seen_scores, seen_labels = collect_scores(predict, seen_loader)
     unseen_scores, unseen_labels = collect_scores(predict, unseen_loader)
     assert seen_scores.shape[1] == config.NUM_PAIRS, "predict() must return [B, 333]"
+    assert unseen_scores.shape[1] == config.NUM_PAIRS, "predict() must return [B, 333]"
     results = {"model": model_name}
     results["seen_top1"] = top_k_accuracy(seen_scores, seen_labels, 1)
     results["seen_top5"] = top_k_accuracy(seen_scores, seen_labels, 5)
     results["unseen_top1"] = top_k_accuracy(unseen_scores, unseen_labels, 1)
     results["unseen_top5"] = top_k_accuracy(unseen_scores, unseen_labels, 5)
     results["harmonic_mean"] = harmonic_mean(results["seen_top1"], results["unseen_top1"])
-    results["crop_acc"], results["disease_acc"] = concept_accuracy(seen_scores, seen_labels)
+    results["crop_acc"], results["disease_acc"] = concept_accuracy(seen_scores, seen_labels, final_evaluation=True)
     results["hp"] = hp
     if robust:
         results["robustness"] = robustness(predict, seen_loader, results["seen_top1"])
     config.RESULTS_DIR.mkdir(exist_ok=True)
     with open(config.RESULTS_DIR / f"{model_name}.json", "w") as file:
         json.dump(results, file, indent=2)
-    save_confusion(seen_scores, seen_labels, model_name)
+    save_confusion(seen_scores, seen_labels, model_name, final_evaluation=True)
     print(json.dumps({k: v for k, v in results.items() if k != "hp"}, indent=2))
     return results

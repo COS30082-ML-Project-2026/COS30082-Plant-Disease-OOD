@@ -1,5 +1,6 @@
 """Data loading for DPD-Small. The only way notebooks should read images or labels."""
 from functools import lru_cache
+from pathlib import Path
 
 import pandas as pd
 import torch
@@ -13,8 +14,10 @@ from common import config
 COLUMNS = ["image", "crop", "disease", "pair_label", "crop_name", "disease_name", "pair_name"]
 
 
-def read_csv(csv_path) -> pd.DataFrame:
+def read_csv(csv_path, *, final_evaluation=False) -> pd.DataFrame:
     """Read a metadata CSV and drop the header row if the file has one."""
+    if Path(csv_path).resolve() in {Path(config.TEST_SEEN_CSV).resolve(), Path(config.TEST_UNSEEN_CSV).resolve()} and not final_evaluation:
+        raise ValueError('Official test metadata is available only with final_evaluation=True after selection is frozen.')
     frame = pd.read_csv(csv_path, header=None, names=COLUMNS, dtype=str)
     if not frame.loc[0, "crop"].strip().isdigit():
         frame = frame.iloc[1:]
@@ -23,44 +26,46 @@ def read_csv(csv_path) -> pd.DataFrame:
     return frame.reset_index(drop=True)
 
 
-@lru_cache(maxsize=1)
-def _pair_table() -> pd.DataFrame:
-    """One row per pair: 323 seen pairs (sorted by CSV pair label), then 10 unseen pairs."""
-    seen = pd.concat([read_csv(config.TRAIN_CSV), read_csv(config.TEST_SEEN_CSV)])
-    unseen = read_csv(config.TEST_UNSEEN_CSV)
+@lru_cache(maxsize=2)
+def _pair_table(final_evaluation=False) -> pd.DataFrame:
+    """323 training-derived rows; append 10 unseen rows only for final evaluation."""
+    seen = read_csv(config.TRAIN_CSV)
     keep = ["crop", "disease", "pair_name", "pair_label"]
     seen_pairs = seen[keep].drop_duplicates(["crop", "disease"]).sort_values("pair_label")
-    unseen_pairs = unseen[keep].drop_duplicates(["crop", "disease"]).sort_values("pair_label")
-    table = pd.concat([seen_pairs, unseen_pairs]).reset_index(drop=True)
     # Unseen CSV labels may reuse seen numbers, so pairs are keyed by (crop, disease)
     assert len(seen_pairs) == config.NUM_SEEN_PAIRS, f"{len(seen_pairs)} seen pairs found"
+    if not final_evaluation:
+        return seen_pairs.reset_index(drop=True)
+    unseen = read_csv(config.TEST_UNSEEN_CSV, final_evaluation=True)
+    unseen_pairs = unseen[keep].drop_duplicates(["crop", "disease"]).sort_values("pair_label")
     assert len(unseen_pairs) == config.NUM_UNSEEN_PAIRS, f"{len(unseen_pairs)} unseen pairs found"
+    assert not set(zip(seen_pairs.crop, seen_pairs.disease)) & set(zip(unseen_pairs.crop, unseen_pairs.disease)), 'Unseen pairs overlap training.'
+    table = pd.concat([seen_pairs, unseen_pairs]).reset_index(drop=True)
     return table
 
 
-def get_pairs() -> torch.LongTensor:
-    """[333, 2] tensor. Row i = (crop_id, disease_id) of pair i."""
-    return torch.tensor(_pair_table()[["crop", "disease"]].values, dtype=torch.long)
+def get_pairs(*, final_evaluation=False) -> torch.LongTensor:
+    """[323, 2] for development; [333, 2] only on explicit final evaluation."""
+    return torch.tensor(_pair_table(final_evaluation)[["crop", "disease"]].values, dtype=torch.long)
 
 
-def get_pair_names() -> list:
+def get_pair_names(*, final_evaluation=False) -> list:
     """Pair names in the same order as get_pairs()."""
-    return _pair_table()["pair_name"].tolist()
+    return _pair_table(final_evaluation)["pair_name"].tolist()
 
 
 def get_crop_and_disease_names() -> tuple:
-    """Two dicts: crop_id -> crop name, disease_id -> disease name (all three CSVs)."""
-    frames = [read_csv(path) for path in (config.TRAIN_CSV, config.TEST_SEEN_CSV, config.TEST_UNSEEN_CSV)]
-    every_row = pd.concat(frames)
+    """Concept names from training metadata only, including during final evaluation."""
+    every_row = read_csv(config.TRAIN_CSV)
     crop_names = dict(zip(every_row["crop"].tolist(), every_row["crop_name"]))
     disease_names = dict(zip(every_row["disease"].tolist(), every_row["disease_name"]))
     return crop_names, disease_names
 
 
-def load_split(csv_path) -> pd.DataFrame:
+def load_split(csv_path, *, final_evaluation=False) -> pd.DataFrame:
     """Metadata plus pair_row, the row of each image's pair in get_pairs()."""
-    frame = read_csv(csv_path)
-    row_of_pair = {(c, d): i for i, (c, d) in enumerate(get_pairs().tolist())}
+    frame = read_csv(csv_path, final_evaluation=final_evaluation)
+    row_of_pair = {(c, d): i for i, (c, d) in enumerate(get_pairs(final_evaluation=final_evaluation).tolist())}
     frame["pair_row"] = [row_of_pair[(c, d)] for c, d in zip(frame["crop"], frame["disease"])]
     return frame
 
@@ -112,29 +117,49 @@ def _subset(frame, size):
     return frame.sample(min(size, len(frame)), random_state=config.SEED)
 
 
-def _make_loader(frame, transform, norm, batch_size, shuffle):
+def _make_loader(frame, transform, norm, batch_size, shuffle, role=None):
     generator = torch.Generator().manual_seed(config.SEED)
+    dataset = PlantDataset(frame, transform, norm)
+    dataset.role = role
     return DataLoader(
-        PlantDataset(frame, transform, norm), batch_size=batch_size, shuffle=shuffle,
+        dataset, batch_size=batch_size, shuffle=shuffle,
         num_workers=config.NUM_WORKERS, pin_memory=torch.cuda.is_available(), generator=generator,
         persistent_workers=config.NUM_WORKERS > 0,
     )
 
 
 def get_loaders(batch_size: int, norm: str = "imagenet", debug: bool = False) -> tuple:
-    """train_loader, val_loader, seen_loader, unseen_loader. debug=True uses small subsets."""
+    """Train/validation only; legacy tuple ends with None, None to avoid test access."""
     train_transform, test_transform = get_transforms(norm)
     train_frame, val_frame = _split_train_val(load_split(config.TRAIN_CSV))
-    seen_frame = load_split(config.TEST_SEEN_CSV)
-    unseen_frame = load_split(config.TEST_UNSEEN_CSV)
     if debug:
         train_frame = _subset(train_frame, config.DEBUG_TRAIN_SIZE)
         val_frame = _subset(val_frame, config.DEBUG_VAL_SIZE)
-        seen_frame = _subset(seen_frame, config.DEBUG_TEST_SIZE)
-        unseen_frame = _subset(unseen_frame, config.DEBUG_TEST_SIZE)
     return (
-        _make_loader(train_frame, train_transform, norm, batch_size, shuffle=True),
-        _make_loader(val_frame, test_transform, norm, batch_size, shuffle=False),
-        _make_loader(seen_frame, test_transform, norm, batch_size, shuffle=False),
-        _make_loader(unseen_frame, test_transform, norm, batch_size, shuffle=False),
+        _make_loader(train_frame, train_transform, norm, batch_size, shuffle=True, role='train'),
+        _make_loader(val_frame, test_transform, norm, batch_size, shuffle=False, role='seen_dev'),
+        None, None,
     )
+
+
+def get_final_test_loaders(batch_size, norm='imagenet', debug=False, *, final_evaluation=False):
+    """Explicit final-only access, after checkpoint and prediction rule are frozen."""
+    if not final_evaluation:
+        raise ValueError('Freeze selection first, then pass final_evaluation=True.')
+    train = load_split(config.TRAIN_CSV)
+    seen = load_split(config.TEST_SEEN_CSV, final_evaluation=True)
+    unseen = load_split(config.TEST_UNSEEN_CSV, final_evaluation=True)
+    frames = [train, seen, unseen]
+    for i, first in enumerate(frames):
+        if not first.image.is_unique:
+            raise ValueError('Duplicate image filename within a split.')
+        for second in frames[i+1:]:
+            if set(first.image) & set(second.image):
+                raise ValueError('Image filename overlap between train and official tests.')
+    if not set(seen.pair_row) <= set(train.pair_row):
+        raise ValueError('Seen test has a combination absent from training.')
+    if debug:
+        seen, unseen = _subset(seen, config.DEBUG_TEST_SIZE), _subset(unseen, config.DEBUG_TEST_SIZE)
+    _, transform = get_transforms(norm)
+    return (_make_loader(seen, transform, norm, batch_size, False, role='official_seen'),
+            _make_loader(unseen, transform, norm, batch_size, False, role='official_unseen'))
