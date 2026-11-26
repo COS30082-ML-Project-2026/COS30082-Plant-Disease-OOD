@@ -1,0 +1,13 @@
+recipe,scoring,condition,seen_top1,drop_pp
+B0_Baseline2,raw,brightness,63.9,0.0
+B0_Baseline2,raw,blur,61.9,2.0
+B0_Baseline2,raw,noise,58.1,5.8
+A2_Add_SupCon,raw,brightness,63.6,0.3
+A2_Add_SupCon,raw,blur,62.0,1.9
+A2_Add_SupCon,raw,noise,58.55,5.35
+B0_Baseline2,calibrated,brightness,52.85,-0.25
+B0_Baseline2,calibrated,blur,50.1,2.5
+B0_Baseline2,calibrated,noise,42.55,10.05
+A2_Add_SupCon,calibrated,brightness,52.1,0.0
+A2_Add_SupCon,calibrated,blur,49.45,2.65
+A2_Add_SupCon,calibrated,noise,42.3,9.8

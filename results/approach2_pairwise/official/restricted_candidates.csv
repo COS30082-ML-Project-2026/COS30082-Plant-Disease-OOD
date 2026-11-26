@@ -1,0 +1,13 @@
+recipe,scoring,split,candidates,top1,top5
+B0_Baseline2,raw,seen_only,323,64.05,90.0
+B0_Baseline2,raw,unseen_only,10,81.84,98.83
+P1_Pair_CE,raw,seen_only,323,66.25,90.5
+P1_Pair_CE,raw,unseen_only,10,82.53,99.1
+P2_Hard_Negatives,raw,seen_only,323,66.35,90.5
+P2_Hard_Negatives,raw,unseen_only,10,82.73,99.1
+P3_Residual_Shrinkage,raw,seen_only,323,66.8,90.7
+P3_Residual_Shrinkage,raw,unseen_only,10,83.15,99.24
+B0_Baseline2,calibrated,seen_only,323,64.05,90.0
+B0_Baseline2,calibrated,unseen_only,10,81.84,98.83
+P3_Residual_Shrinkage,calibrated,seen_only,323,66.8,90.7
+P3_Residual_Shrinkage,calibrated,unseen_only,10,83.15,99.24

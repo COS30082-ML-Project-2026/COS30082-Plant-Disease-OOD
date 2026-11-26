@@ -1,0 +1,5 @@
+recipe,scoring,gamma,seen_top1,proxy_top1,harmonic_top1
+B0_Baseline2,raw,0.0,81.59,0.0,0.0
+B0_Baseline2,locked_calibrated,5.5,67.31,76.69,71.69
+A2_Add_SupCon,raw,0.0,81.59,0.27,0.54
+A2_Add_SupCon,locked_calibrated,5.5,66.76,82.93,73.97

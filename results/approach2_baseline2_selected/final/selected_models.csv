@@ -1,0 +1,5 @@
+recipe,epoch,baseline_split_seen_top1,seen_top1,proxy_top1,harmonic_top1,criterion,is_exported_model,raw_gamma,locked_calibrated_gamma
+B0_Baseline2,19,80.82,80.49,7.83,14.27,baseline_seen_top1,False,0.0,5.5
+A1_Decorrelation,16,80.57,81.32,8.7,15.72,raw_tune_harmonic_top1,False,0.0,
+A2_Add_SupCon,14,80.18,81.59,9.57,17.13,raw_tune_harmonic_top1,True,0.0,5.5
+A3_Add_Blur,14,80.18,81.32,9.57,17.12,raw_tune_harmonic_top1,False,0.0,
