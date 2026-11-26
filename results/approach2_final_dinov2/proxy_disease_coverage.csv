@@ -1,0 +1,11 @@
+pair_row,crop_name,disease,disease_name,proxy_images,split,fit_disease_images,fit_disease_crops
+36,bean,9,healthy,10,tune_proxy,1415,35
+78,cauliflower,3,black_rot,7,tune_proxy,27,4
+135,garlic,10,rust,5,tune_proxy,258,10
+212,peach,12,monillia_laxa,8,tune_proxy,10,2
+255,soybean,10,rust,7,tune_proxy,258,10
+24,banana,9,healthy,11,check_proxy,1415,35
+211,peach,57,curl,12,check_proxy,33,4
+234,potato,139,late_blight,70,check_proxy,101,1
+265,sugarcane,51,mosaic,18,check_proxy,492,2
+271,sugarcane,58,yellowing,21,check_proxy,18,2

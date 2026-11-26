@@ -1,0 +1,4 @@
+component,method,control,epoch,delta_seen_top1_pp,delta_proxy_top1_pp,delta_proxy_top5_pp,delta_harmonic_top1_pp,delta_proxy_disease_head_top1_pp,delta_proxy_disease_head_top5_pp,delta_proxy_only_top1_pp
+decorrelation,A2b,A2a,20,0.0,0.0,0.75,0.0,0.0,0.0,0.0
+cross-crop SupCon,A2c,A2b,20,0.27,0.0,-0.75,0.0,0.0,1.52,-0.75
+horizontal flip,A2c,A2c_no_flip,20,0.27,0.0,0.76,0.0,0.0,0.76,-0.75
