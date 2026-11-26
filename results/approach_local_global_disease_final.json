@@ -1,0 +1,38 @@
+{
+  "model": "approach_local_global_disease_dinov2_final",
+  "seen_top1": 67.55,
+  "seen_top5": 91.8,
+  "unseen_top1": 11.05,
+  "unseen_top5": 39.71,
+  "harmonic_mean": 18.99,
+  "crop_acc": 92.85,
+  "disease_acc": 69.3,
+  "hp": {
+    "backbone": "vit_base_patch14_dinov2.lvd142m",
+    "input_size": 224,
+    "backbone_frozen": true,
+    "shared_backbone": true,
+    "local_patch_attention": true,
+    "batch_size": 16,
+    "epochs": 9,
+    "seed": 42,
+    "lr": 0.0001,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "protocol": "train_only_local_global_disease_v1"
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 67.25,
+      "drop": 0.3
+    },
+    "blur": {
+      "top1": 64.45,
+      "drop": 3.1
+    },
+    "noise": {
+      "top1": 61.55,
+      "drop": 6.0
+    }
+  }
+}

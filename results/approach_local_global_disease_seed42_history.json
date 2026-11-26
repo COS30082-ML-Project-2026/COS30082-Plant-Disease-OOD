@@ -1,0 +1,162 @@
+[
+  {
+    "epoch": 1,
+    "familiar_top1": 59.74,
+    "held_pair_top1": 8.94,
+    "harmonic_mean": 15.55,
+    "crop_loss": 1.823,
+    "disease_loss": 2.898
+  },
+  {
+    "epoch": 2,
+    "familiar_top1": 68.62,
+    "held_pair_top1": 14.74,
+    "harmonic_mean": 24.27,
+    "crop_loss": 1.112,
+    "disease_loss": 1.931
+  },
+  {
+    "epoch": 3,
+    "familiar_top1": 72.92,
+    "held_pair_top1": 16.5,
+    "harmonic_mean": 26.91,
+    "crop_loss": 0.997,
+    "disease_loss": 1.657
+  },
+  {
+    "epoch": 4,
+    "familiar_top1": 75.93,
+    "held_pair_top1": 15.49,
+    "harmonic_mean": 25.73,
+    "crop_loss": 0.946,
+    "disease_loss": 1.512
+  },
+  {
+    "epoch": 5,
+    "familiar_top1": 79.94,
+    "held_pair_top1": 17.51,
+    "harmonic_mean": 28.73,
+    "crop_loss": 0.917,
+    "disease_loss": 1.424
+  },
+  {
+    "epoch": 6,
+    "familiar_top1": 80.66,
+    "held_pair_top1": 20.53,
+    "harmonic_mean": 32.73,
+    "crop_loss": 0.894,
+    "disease_loss": 1.359
+  },
+  {
+    "epoch": 7,
+    "familiar_top1": 80.09,
+    "held_pair_top1": 20.4,
+    "harmonic_mean": 32.52,
+    "crop_loss": 0.88,
+    "disease_loss": 1.32
+  },
+  {
+    "epoch": 8,
+    "familiar_top1": 81.81,
+    "held_pair_top1": 18.89,
+    "harmonic_mean": 30.69,
+    "crop_loss": 0.868,
+    "disease_loss": 1.279
+  },
+  {
+    "epoch": 9,
+    "familiar_top1": 82.66,
+    "held_pair_top1": 22.17,
+    "harmonic_mean": 34.96,
+    "crop_loss": 0.859,
+    "disease_loss": 1.252
+  },
+  {
+    "epoch": 10,
+    "familiar_top1": 81.95,
+    "held_pair_top1": 18.77,
+    "harmonic_mean": 30.54,
+    "crop_loss": 0.85,
+    "disease_loss": 1.228
+  },
+  {
+    "epoch": 11,
+    "familiar_top1": 82.38,
+    "held_pair_top1": 18.77,
+    "harmonic_mean": 30.57,
+    "crop_loss": 0.847,
+    "disease_loss": 1.209
+  },
+  {
+    "epoch": 12,
+    "familiar_top1": 83.24,
+    "held_pair_top1": 19.65,
+    "harmonic_mean": 31.79,
+    "crop_loss": 0.839,
+    "disease_loss": 1.197
+  },
+  {
+    "epoch": 13,
+    "familiar_top1": 83.52,
+    "held_pair_top1": 19.02,
+    "harmonic_mean": 30.98,
+    "crop_loss": 0.836,
+    "disease_loss": 1.18
+  },
+  {
+    "epoch": 14,
+    "familiar_top1": 82.52,
+    "held_pair_top1": 18.77,
+    "harmonic_mean": 30.58,
+    "crop_loss": 0.831,
+    "disease_loss": 1.177
+  },
+  {
+    "epoch": 15,
+    "familiar_top1": 83.38,
+    "held_pair_top1": 20.91,
+    "harmonic_mean": 33.44,
+    "crop_loss": 0.829,
+    "disease_loss": 1.165
+  },
+  {
+    "epoch": 16,
+    "familiar_top1": 83.24,
+    "held_pair_top1": 20.53,
+    "harmonic_mean": 32.94,
+    "crop_loss": 0.828,
+    "disease_loss": 1.163
+  },
+  {
+    "epoch": 17,
+    "familiar_top1": 83.67,
+    "held_pair_top1": 20.53,
+    "harmonic_mean": 32.97,
+    "crop_loss": 0.827,
+    "disease_loss": 1.154
+  },
+  {
+    "epoch": 18,
+    "familiar_top1": 83.52,
+    "held_pair_top1": 20.03,
+    "harmonic_mean": 32.31,
+    "crop_loss": 0.825,
+    "disease_loss": 1.154
+  },
+  {
+    "epoch": 19,
+    "familiar_top1": 83.67,
+    "held_pair_top1": 20.15,
+    "harmonic_mean": 32.48,
+    "crop_loss": 0.823,
+    "disease_loss": 1.153
+  },
+  {
+    "epoch": 20,
+    "familiar_top1": 83.67,
+    "held_pair_top1": 20.28,
+    "harmonic_mean": 32.65,
+    "crop_loss": 0.823,
+    "disease_loss": 1.151
+  }
+]

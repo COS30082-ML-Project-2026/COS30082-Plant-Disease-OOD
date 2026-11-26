@@ -1,0 +1,31 @@
+{
+  "seed": 42,
+  "source": "training CSV only",
+  "held_pair_rows": [
+    9,
+    185,
+    204,
+    299,
+    208,
+    291,
+    33,
+    303,
+    45,
+    302
+  ],
+  "held_pair_names": [
+    "apple_healthy",
+    "paddy_bacterial_blight",
+    "papaya_curl",
+    "tomato_mosaic_virus",
+    "peach_bacterial_spot",
+    "tomato_bacterial_spot",
+    "bean_angular_leaf_spot",
+    "tomato_spider_mites",
+    "blackgram_healthy",
+    "tomato_septoria_leaf_spot"
+  ],
+  "training_images": 6508,
+  "familiar_validation_images": 698,
+  "held_pair_validation_images": 794
+}
