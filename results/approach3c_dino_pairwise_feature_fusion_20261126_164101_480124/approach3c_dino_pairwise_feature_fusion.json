@@ -1,0 +1,51 @@
+{
+  "model": "approach3c_dino_pairwise_feature_fusion",
+  "seen_top1": 72.5,
+  "seen_top5": 90.25,
+  "unseen_top1": 18.92,
+  "unseen_top5": 51.31,
+  "harmonic_mean": 30.01,
+  "crop_acc": 93.4,
+  "disease_acc": 74.0,
+  "hp": {
+    "backbone": "vit_base_patch14_dinov2.lvd142m",
+    "batch_size": 16,
+    "epochs": 20,
+    "unfreeze_blocks": [
+      2,
+      4
+    ],
+    "backbone_lr": 1e-05,
+    "crop_lr": 0.0001,
+    "disease_lr": 0.0003,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "seed": 42,
+    "norm": "imagenet",
+    "hidden_dim": 256,
+    "feature_dim": 128,
+    "dino_revision": "main",
+    "fusion_attention_heads": 4,
+    "primitive_weight_start": 0.75,
+    "primitive_weight_end": 0.25,
+    "selected_depth": 4
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 72.3,
+      "drop": 0.2
+    },
+    "blur": {
+      "top1": 70.9,
+      "drop": 1.6
+    },
+    "noise": {
+      "top1": 66.45,
+      "drop": 6.05
+    }
+  },
+  "unseen_test_crop_acc": 84.25,
+  "unseen_test_disease_acc": 21.34,
+  "debug": false,
+  "best_val": 90.48
+}
