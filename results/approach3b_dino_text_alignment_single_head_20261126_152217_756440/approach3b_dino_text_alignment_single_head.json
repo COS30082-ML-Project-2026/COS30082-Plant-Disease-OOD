@@ -1,0 +1,44 @@
+{
+  "model": "approach3b_dino_text_alignment_single_head",
+  "seen_top1": 65.85,
+  "seen_top5": 87.5,
+  "unseen_top1": 6.7,
+  "unseen_top5": 59.53,
+  "harmonic_mean": 12.16,
+  "crop_acc": 93.0,
+  "disease_acc": 67.25,
+  "hp": {
+    "backbone": "vit_base_patch14_dinov2.lvd142m",
+    "batch_size": 16,
+    "epochs": 20,
+    "pair_lr": 0.0001,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "seed": 42,
+    "norm": "imagenet",
+    "hidden_dim": 256,
+    "text_batch_size": 16,
+    "dino_revision": "main",
+    "text_revision": "main",
+    "pair_prompt": "a photo of a {crop} leaf with {disease}",
+    "healthy_prompt": "a photo of a healthy {crop} leaf"
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 65.4,
+      "drop": 0.45
+    },
+    "blur": {
+      "top1": 62.7,
+      "drop": 3.15
+    },
+    "noise": {
+      "top1": 58.55,
+      "drop": 7.3
+    }
+  },
+  "unseen_test_crop_acc": 79.9,
+  "unseen_test_disease_acc": 8.7,
+  "debug": false,
+  "best_val": 80.31
+}
