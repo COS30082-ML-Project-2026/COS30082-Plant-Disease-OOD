@@ -1,0 +1,35 @@
+{
+  "selection": {
+    "epoch": 10,
+    "images_trained": 6788,
+    "train_loss": 1.951332905447757,
+    "train_ranking_loss": 0.11840633076682038,
+    "train_transfer_ranking_loss": 0.03478631838443509,
+    "transfer_anchor_fraction": 0.2133176193282263,
+    "supcon_anchor_fraction": 0.2133176193282263,
+    "seen_top1": 87.09,
+    "proxy_top1": 23.48,
+    "harmonic_top1": 36.99,
+    "proxy_blocked_by_fit_pairs_pct": 65.22
+  },
+  "independent_proxy_check": {
+    "seen_top1": 86.26,
+    "proxy_top1": 23.85,
+    "harmonic_top1": 37.37,
+    "proxy_blocked_by_fit_pairs_pct": 69.38
+  },
+  "selection_tune_pair_rows": [
+    110,
+    130,
+    211,
+    258,
+    296
+  ],
+  "independent_check_pair_rows": [
+    65,
+    103,
+    107,
+    246,
+    314
+  ]
+}

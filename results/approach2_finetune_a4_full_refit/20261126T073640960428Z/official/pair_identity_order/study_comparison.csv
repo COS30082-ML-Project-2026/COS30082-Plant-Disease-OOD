@@ -1,0 +1,9 @@
+recipe,scoring,gamma,selected_approach,candidates,epoch,seen_top1,unseen_top1,overall_top1,seen_top5,unseen_top5,overall_top5,harmonic_top1,final_training_data,unseen_only_top1
+B0_Baseline2,raw,0.0,False,333,19,63.9,9.6,41.1,89.9,33.91,66.39,16.69,team_train_split,81.84
+A1_Decorrelation,raw,0.0,False,333,16,64.0,9.74,41.21,90.0,33.84,66.42,16.91,team_train_split,81.77
+A2_Add_SupCon,raw,0.0,True,333,14,63.9,9.39,41.01,89.4,33.15,65.78,16.37,team_train_split,81.77
+A3_Add_Blur,raw,0.0,False,333,14,63.85,9.46,41.01,89.25,33.15,65.69,16.48,team_train_split,81.56
+B0_Baseline2,calibrated,5.5,False,333,19,52.6,62.85,56.9,85.25,95.65,89.62,57.27,team_train_split,81.84
+A2_Add_SupCon,calibrated,5.5,True,333,14,52.1,63.33,56.82,85.0,96.2,89.7,57.17,team_train_split,81.77
+A4_Last_Block_FineTune,raw,0.0,,333,3,68.7,7.94,43.18,90.45,33.49,66.53,14.23,all_training_csv_rows,84.81
+A4_Last_Block_FineTune,calibrated,5.5,,333,3,59.4,66.51,62.38,86.4,97.51,91.07,62.75,all_training_csv_rows,84.81

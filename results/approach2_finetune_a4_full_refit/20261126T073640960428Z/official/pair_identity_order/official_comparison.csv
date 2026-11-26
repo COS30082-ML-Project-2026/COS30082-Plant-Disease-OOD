@@ -1,0 +1,3 @@
+recipe,scoring,gamma,epoch,candidates,seen_top1,unseen_top1,overall_top1,seen_top5,unseen_top5,overall_top5,harmonic_top1
+A4_Last_Block_FineTune,raw,0.0,3,333,68.7,7.94,43.18,90.45,33.49,66.53,14.23
+A4_Last_Block_FineTune,calibrated,5.5,3,333,59.4,66.51,62.38,86.4,97.51,91.07,62.75

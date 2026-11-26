@@ -1,0 +1,7 @@
+recipe,scoring,condition,seen_top1,drop_pp
+A4_Last_Block_FineTune,raw,brightness,68.55,0.15
+A4_Last_Block_FineTune,raw,blur,66.45,2.25
+A4_Last_Block_FineTune,raw,noise,60.8,7.9
+A4_Last_Block_FineTune,calibrated,brightness,59.25,0.15
+A4_Last_Block_FineTune,calibrated,blur,55.65,3.75
+A4_Last_Block_FineTune,calibrated,noise,49.05,10.35

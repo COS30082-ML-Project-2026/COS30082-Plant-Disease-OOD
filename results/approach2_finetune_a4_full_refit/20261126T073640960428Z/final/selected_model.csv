@@ -1,0 +1,2 @@
+epoch,images_trained,train_loss,supcon_anchor_fraction,seen_top1,proxy_top1,harmonic_top1,recipe,locked_gamma
+3,6788,2.411147365024951,0.21140247495580436,80.22,16.52,27.4,A4_Last_Block_FineTune,5.5

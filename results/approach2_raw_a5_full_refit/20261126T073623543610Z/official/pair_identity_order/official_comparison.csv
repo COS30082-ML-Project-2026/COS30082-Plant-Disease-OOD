@@ -1,0 +1,2 @@
+recipe,scoring,epoch,candidates,seen_top1,unseen_top1,overall_top1,seen_top5,unseen_top5,overall_top5,harmonic_top1,seen_minus_unseen_top1_pp,abs_seen_unseen_gap_pp,meets_unseen_50pct,meets_unseen_60pct,meets_50pct_and_gap_at_most_10pp
+A5_Patch_Weighted_Ranking,raw,10,333,71.2,8.49,44.87,92.7,43.02,71.84,15.17,62.71,62.71,False,False,False

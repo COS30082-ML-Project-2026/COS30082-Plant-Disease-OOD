@@ -1,0 +1,5 @@
+recipe,scoring,split,candidates,top1,top5
+A4_Last_Block_FineTune,raw,seen_only,323,68.75,90.5
+A4_Last_Block_FineTune,raw,unseen_only,10,84.81,99.45
+A4_Last_Block_FineTune,calibrated,seen_only,323,68.75,90.5
+A4_Last_Block_FineTune,calibrated,unseen_only,10,84.81,99.45
