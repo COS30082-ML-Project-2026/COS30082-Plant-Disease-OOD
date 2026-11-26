@@ -1,0 +1,8 @@
+{
+  "epoch": 9,
+  "familiar_top1": 82.66,
+  "held_pair_top1": 22.17,
+  "harmonic_mean": 34.96,
+  "crop_loss": 0.859,
+  "disease_loss": 1.252
+}
