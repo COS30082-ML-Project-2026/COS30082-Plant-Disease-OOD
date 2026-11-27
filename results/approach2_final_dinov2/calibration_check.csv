@@ -1,3 +1,0 @@
-scoring,gamma,seen_top1,proxy_top1,seen_top5,proxy_top5,harmonic_top1,proxy_crop_head_top1,proxy_disease_head_top1,proxy_disease_head_top5,proxy_only_top1,proxy_only_top5,proxy_macro_top1,proxy_predicted_seen_pct,proxy_rank_blocked_pct,proxy_median_correct_rank
-raw,0.0,78.16,6.06,96.32,60.61,11.25,90.15,7.58,50.76,82.58,100.0,7.81,93.94,76.52,3.0
-calibrated,6.0,75.53,69.7,95.79,96.21,72.5,90.15,7.58,50.76,82.58,100.0,65.0,17.42,12.88,1.0

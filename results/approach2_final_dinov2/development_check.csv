@@ -1,5 +1,0 @@
-recipe,epoch,seen_top1,proxy_top1,seen_top5,proxy_top5,harmonic_top1,proxy_crop_head_top1,proxy_disease_head_top1,proxy_disease_head_top5,proxy_only_top1,proxy_only_top5,proxy_macro_top1,proxy_predicted_seen_pct,proxy_rank_blocked_pct,proxy_median_correct_rank
-A2a,20,77.89,6.06,96.32,60.61,11.25,90.15,7.58,49.24,83.33,100.0,7.81,93.94,77.27,3.0
-A2b,20,77.89,6.06,96.32,61.36,11.25,90.15,7.58,49.24,83.33,100.0,7.81,93.94,77.27,3.0
-A2c,20,78.16,6.06,96.32,60.61,11.25,90.15,7.58,50.76,82.58,100.0,7.81,93.94,76.52,3.0
-A2c_no_flip,20,77.89,6.06,96.84,59.85,11.25,90.15,7.58,50.0,83.33,100.0,7.81,93.94,77.27,3.0

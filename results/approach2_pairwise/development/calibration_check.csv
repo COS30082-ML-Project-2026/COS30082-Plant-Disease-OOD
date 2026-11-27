@@ -1,5 +1,0 @@
-recipe,scoring,gamma,seen_top1,proxy_top1,harmonic_top1
-B0_Baseline2,raw,0.0,81.59,0.0,0.0
-B0_Baseline2,locked_calibrated,5.5,67.31,76.69,71.69
-P3_Residual_Shrinkage,raw,0.0,83.52,0.27,0.54
-P3_Residual_Shrinkage,locked_calibrated,6.5,68.13,83.47,75.02
