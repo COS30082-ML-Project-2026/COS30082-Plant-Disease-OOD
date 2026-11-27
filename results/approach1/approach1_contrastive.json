@@ -1,36 +1,40 @@
 {
   "model": "approach1_contrastive",
-  "seen_top1": 1.0,
-  "seen_top5": 1.0,
-  "unseen_top1": 0.0,
-  "unseen_top5": 4.0,
-  "harmonic_mean": 0.0,
-  "crop_acc": 4.0,
-  "disease_acc": 5.0,
+  "seen_top1": 54.45,
+  "seen_top5": 79.45,
+  "unseen_top1": 2.14,
+  "unseen_top5": 25.76,
+  "harmonic_mean": 4.12,
+  "crop_acc": 81.8,
+  "disease_acc": 58.25,
   "hp": {
     "backbone": "resnet50",
-    "lr": 0.0001,
+    "lr": 0.0003,
     "weight_decay": 0.0001,
-    "epochs": 1,
+    "epochs": 20,
     "batch_size": 16,
+    "grad_accum_steps": 4,
     "optimizer": "AdamW",
-    "label_smoothing": 0.1,
+    "label_smoothing": 0.05,
     "projection_dim": 128,
-    "temperature": 0.1,
-    "contrastive_weight": 0.5
+    "temperature": 0.2,
+    "contrastive_weight": 0.3,
+    "seen_bias": 2.0,
+    "w_crop": 1.0,
+    "w_disease": 1.5
   },
   "robustness": {
     "brightness": {
-      "top1": 0.0,
-      "drop": 1.0
+      "top1": 51.8,
+      "drop": 2.65
     },
     "blur": {
-      "top1": 0.0,
-      "drop": 1.0
+      "top1": 33.85,
+      "drop": 20.6
     },
     "noise": {
-      "top1": 1.0,
-      "drop": 0.0
+      "top1": 32.7,
+      "drop": 21.75
     }
   }
 }
