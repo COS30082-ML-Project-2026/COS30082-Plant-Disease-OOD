@@ -1,0 +1,4 @@
+comparison,recipe,reference,epoch,seen_top1_delta_pp,proxy_top1_delta_pp,harmonic_top1_delta_pp,seen_top5_delta_pp,proxy_top5_delta_pp,proxy_blocked_by_fit_pairs_pct_delta_pp,proxy_true_crop_top1_delta_pp
+epoch2_paired_supervision,A5_PairedDiseaseAttention,A5_Control,2,-0.55,0.54,0.14,0.55,-0.27,-0.27,0.27
+staged_vs_joint_at_staged_epoch,A5_Paired_Staged,A5_PairedDiseaseAttention,13,0.55,-2.98,-2.95,-0.55,1.35,2.44,-2.98
+winner_epoch_paired_vs_control,A5_PairedDiseaseAttention,A5_Control,13,-1.1,4.6,4.59,0.55,0.82,-4.06,4.61

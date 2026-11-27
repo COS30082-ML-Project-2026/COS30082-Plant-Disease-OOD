@@ -1,0 +1,7 @@
+comparison,recipe,epoch,seen_top1,proxy_top1,harmonic_top1,seen_top5,proxy_top5,proxy_blocked_by_fit_pairs_pct,proxy_true_crop_top1
+epoch2_paired_supervision,A5_Control,2,71.15,54.2,61.53,95.88,68.83,41.19,55.83
+epoch2_paired_supervision,A5_PairedDiseaseAttention,2,70.6,54.74,61.67,96.43,68.56,40.92,56.1
+staged_vs_joint_at_staged_epoch,A5_PairedDiseaseAttention,13,86.81,36.31,51.2,97.8,64.23,56.64,36.86
+staged_vs_joint_at_staged_epoch,A5_Paired_Staged,13,87.36,33.33,48.25,97.25,65.58,59.08,33.88
+winner_epoch_paired_vs_control,A5_Control,13,87.91,31.71,46.61,97.25,63.41,60.7,32.25
+winner_epoch_paired_vs_control,A5_PairedDiseaseAttention,13,86.81,36.31,51.2,97.8,64.23,56.64,36.86

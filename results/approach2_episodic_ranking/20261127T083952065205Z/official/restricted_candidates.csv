@@ -1,5 +1,0 @@
-recipe,scoring,split,candidates,top1,top5
-R2_Episodic_Ranking,raw,seen_only,323,63.7,89.7
-R2_Episodic_Ranking,raw,unseen_only,10,83.29,98.34
-R2_Episodic_Ranking,calibrated,seen_only,323,63.7,89.7
-R2_Episodic_Ranking,calibrated,unseen_only,10,83.29,98.34

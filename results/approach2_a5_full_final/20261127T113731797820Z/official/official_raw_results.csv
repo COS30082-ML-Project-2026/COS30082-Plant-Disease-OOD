@@ -1,0 +1,5 @@
+model_id,recipe,scoring,gamma,paired_supervision,staged,selected_on_tune,epoch,candidates,seen_crop_evidence_top1,seen_disease_evidence_top1,unseen_crop_evidence_top1,unseen_disease_evidence_top1,raw_true_crop_candidate_top1,seen_top1,unseen_top1,overall_top1,seen_top5,unseen_top5,overall_top5,harmonic_mean,abs_seen_unseen_gap_pp,seen_predicted_unseen,seen_test_crop_acc,seen_test_disease_acc,unseen_test_crop_acc,unseen_test_disease_acc
+A5_Control_e02,A5_Control,raw,0.0,False,False,False,2,333,91.25,62.45,83.36,9.74,22.38,62.45,15.54,42.75,88.7,48.0,71.61,24.89,46.91,12,91.65,64.05,77.28,17.47
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,raw,0.0,True,False,False,2,333,90.9,61.8,83.08,8.49,21.75,61.95,13.95,41.79,88.8,48.0,71.66,22.77,48.0,14,91.35,63.65,76.24,15.75
+A5_Control_e13,A5_Control,raw,0.0,False,False,False,13,333,94.55,72.65,84.19,9.25,18.44,72.7,10.01,46.37,92.7,44.06,72.27,17.6,62.69,5,94.5,74.0,81.08,12.78
+A5_Paired_Staged_e13,A5_Paired_Staged,raw,0.0,True,True,True,13,333,94.25,71.85,83.91,8.98,18.99,71.8,9.74,45.74,93.15,45.51,73.14,17.15,62.06,5,94.1,73.3,80.18,12.78

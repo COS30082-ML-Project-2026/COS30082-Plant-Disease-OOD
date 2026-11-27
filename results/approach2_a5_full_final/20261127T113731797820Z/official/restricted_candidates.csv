@@ -1,0 +1,17 @@
+model_id,recipe,scoring,split,candidates,top1,top5
+A5_Control_e02,A5_Control,raw,seen_only,323,62.6,88.85
+A5_Control_e02,A5_Control,raw,unseen_only,10,82.73,98.27
+A5_Control_e02,A5_Control,calibrated,seen_only,323,62.6,88.85
+A5_Control_e02,A5_Control,calibrated,unseen_only,10,82.73,98.27
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,raw,seen_only,323,62.15,88.95
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,raw,unseen_only,10,82.32,98.27
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,calibrated,seen_only,323,62.15,88.95
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,calibrated,unseen_only,10,82.32,98.27
+A5_Control_e13,A5_Control,raw,seen_only,323,72.85,92.8
+A5_Control_e13,A5_Control,raw,unseen_only,10,83.36,99.17
+A5_Control_e13,A5_Control,calibrated,seen_only,323,72.85,92.8
+A5_Control_e13,A5_Control,calibrated,unseen_only,10,83.36,99.17
+A5_Paired_Staged_e13,A5_Paired_Staged,raw,seen_only,323,71.9,93.15
+A5_Paired_Staged_e13,A5_Paired_Staged,raw,unseen_only,10,83.77,99.52
+A5_Paired_Staged_e13,A5_Paired_Staged,calibrated,seen_only,323,71.9,93.15
+A5_Paired_Staged_e13,A5_Paired_Staged,calibrated,unseen_only,10,83.77,99.52

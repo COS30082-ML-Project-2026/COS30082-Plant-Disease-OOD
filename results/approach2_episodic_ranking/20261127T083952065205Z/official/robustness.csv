@@ -1,7 +1,0 @@
-recipe,scoring,condition,seen_top1,drop_pp
-R2_Episodic_Ranking,raw,brightness,63.35,0.3
-R2_Episodic_Ranking,raw,blur,62.25,1.4
-R2_Episodic_Ranking,raw,noise,57.3,6.35
-R2_Episodic_Ranking,calibrated,brightness,52.25,-0.45
-R2_Episodic_Ranking,calibrated,blur,49.8,2.0
-R2_Episodic_Ranking,calibrated,noise,43.85,7.95

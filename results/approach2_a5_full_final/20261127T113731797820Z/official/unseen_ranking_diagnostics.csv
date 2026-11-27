@@ -1,0 +1,9 @@
+model_id,recipe,scoring,unseen_images,joint_correct,unseen_only_correct,unseen_predicted_seen,blocked_by_seen,blocked_same_crop,blocked_other_crop,median_true_pair_minus_top_seen_score
+A5_Control_e02,A5_Control,raw,1448,225,1198,1215,973,821,152,-2.559657573699951
+A5_Control_e02,A5_Control,calibrated,1448,1104,1198,117,94,72,22,2.440342426300049
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,raw,1448,202,1192,1238,990,832,158,-2.4570703506469727
+A5_PairedDiseaseAttention_e02,A5_PairedDiseaseAttention,calibrated,1448,1098,1192,115,94,71,23,2.5429296493530273
+A5_Control_e13,A5_Control,raw,1448,145,1207,1298,1062,907,155,-3.735140800476074
+A5_Control_e13,A5_Control,calibrated,1448,1061,1207,205,146,129,17,1.7648591995239258
+A5_Paired_Staged_e13,A5_Paired_Staged,raw,1448,141,1213,1301,1072,909,163,-3.5687408447265625
+A5_Paired_Staged_e13,A5_Paired_Staged,calibrated,1448,1069,1213,190,144,127,17,1.9312591552734375

@@ -1,0 +1,5 @@
+comparison,model_id,reference,scoring,seen_top1_delta_pp,unseen_top1_delta_pp,overall_top1_delta_pp,seen_top5_delta_pp,unseen_top5_delta_pp,overall_top5_delta_pp,harmonic_mean_delta_pp
+epoch2_paired_supervision,A5_PairedDiseaseAttention_e02,A5_Control_e02,raw,-0.5,-1.59,-0.96,0.1,0.0,0.05,-2.12
+epoch2_paired_supervision,A5_PairedDiseaseAttention_e02,A5_Control_e02,calibrated,-1.0,-0.41,-0.76,0.0,0.27,0.12,-0.84
+winner_vs_control,A5_Paired_Staged_e13,A5_Control_e13,raw,-0.9,-0.27,-0.63,0.45,1.45,0.87,-0.45
+winner_vs_control,A5_Paired_Staged_e13,A5_Control_e13,calibrated,-1.15,0.56,-0.44,0.05,0.21,0.12,-0.42
