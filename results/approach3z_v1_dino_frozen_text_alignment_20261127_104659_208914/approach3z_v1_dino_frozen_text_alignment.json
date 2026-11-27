@@ -1,0 +1,64 @@
+{
+  "model": "approach3z_v1_dino_frozen_text_alignment",
+  "seen_top1": 66.75,
+  "seen_top5": 88.95,
+  "unseen_top1": 7.18,
+  "unseen_top5": 54.9,
+  "harmonic_mean": 12.97,
+  "crop_acc": 93.65,
+  "disease_acc": 68.35,
+  "hp": {
+    "backbone": "vit_base_patch14_dinov2.lvd142m",
+    "batch_size": 16,
+    "epochs": 20,
+    "unfreeze_blocks": [
+      0
+    ],
+    "backbone_lr": 1e-05,
+    "crop_lr": 0.0001,
+    "disease_lr": 0.0003,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "seed": 42,
+    "norm": "imagenet",
+    "hidden_dim": 256,
+    "feature_dim": 128,
+    "supcon_temperature": 0.1,
+    "text_batch_size": 16,
+    "dino_revision": "main",
+    "text_revision": "main",
+    "score_weights": [
+      0.5,
+      0.25,
+      0.25
+    ],
+    "pair_templates": [
+      "a photo of a {crop} leaf with {disease}",
+      "a field photo of {crop} showing {disease} symptoms",
+      "a close-up leaf of {crop} affected by {disease}"
+    ],
+    "healthy_templates": [
+      "a photo of a healthy {crop} leaf",
+      "a field photo of a healthy {crop} plant"
+    ],
+    "selected_depth": 0
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 66.6,
+      "drop": 0.15
+    },
+    "blur": {
+      "top1": 65.65,
+      "drop": 1.1
+    },
+    "noise": {
+      "top1": 60.15,
+      "drop": 6.6
+    }
+  },
+  "unseen_test_crop_acc": 82.11,
+  "unseen_test_disease_acc": 9.53,
+  "debug": false,
+  "best_val": 83.4
+}
