@@ -1,0 +1,32 @@
+{
+  "model": "approach3c_dino_multi_path_scoring",
+  "seen_top1": 72.85,
+  "seen_top5": 90.8,
+  "unseen_top1": 17.2,
+  "unseen_top5": 52.56,
+  "harmonic_mean": 27.83,
+  "crop_acc": 93.9,
+  "disease_acc": 74.35,
+  "hp": {
+    "weights": [
+      0.5,
+      0.25,
+      0.25
+    ],
+    "c_depth": 4
+  },
+  "robustness": {
+    "brightness": {
+      "top1": 72.7,
+      "drop": 0.15
+    },
+    "blur": {
+      "top1": 71.0,
+      "drop": 1.85
+    },
+    "noise": {
+      "top1": 66.4,
+      "drop": 6.45
+    }
+  }
+}
