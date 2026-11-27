@@ -1,0 +1,11 @@
+{
+  "n_images": 1448,
+  "candidates": 333,
+  "unseen_top1": 26.8,
+  "unseen_top5": 81.35,
+  "near_misses": 790,
+  "top1_correct_outside_top5": 0,
+  "published_unseen_top1": 26.8,
+  "published_unseen_top5": 81.35,
+  "reproduces_published": true
+}
