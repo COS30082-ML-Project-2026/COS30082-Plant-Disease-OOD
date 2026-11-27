@@ -1,0 +1,125 @@
+{
+  "recipe_selected_on_tune": "R2_Episodic_Ranking",
+  "settings": {
+    "reference_commit": "0fece2daff4917431bb2a5b16b65718ab100d05c",
+    "backbone": "vit_base_patch14_dinov2.lvd142m",
+    "seed": 42,
+    "image_size": 224,
+    "resize_size": 256,
+    "val_fraction": 0.1,
+    "batch_size": 16,
+    "epochs": 20,
+    "head_lr": 0.0001,
+    "weight_decay": 0.0001,
+    "optimizer": "AdamW",
+    "schedule": "CosineAnnealingLR",
+    "label_smoothing": 0.1,
+    "decorrelation_weight": 0.05,
+    "supcon_weight": 0.1,
+    "temperature": 0.1,
+    "fold_seeds": [
+      43,
+      53,
+      67
+    ],
+    "augmented_views": 2,
+    "prototype_weight": 2.0,
+    "rank_weight": 0.25,
+    "rank_margin": 1.0,
+    "episode_interval": 8,
+    "query_size": 8,
+    "recipes": {
+      "R0_A2": {
+        "prototype": false,
+        "episodic_ranking": false
+      },
+      "R1_Prototype": {
+        "prototype": true,
+        "episodic_ranking": false
+      },
+      "R2_Episodic_Ranking": {
+        "prototype": true,
+        "episodic_ranking": true
+      }
+    },
+    "calibration_grid": [
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0,
+      4.5,
+      5.0,
+      5.5,
+      6.0,
+      6.5,
+      7.0,
+      7.5,
+      8.0,
+      8.5,
+      9.0,
+      9.5,
+      10.0,
+      10.5,
+      11.0,
+      11.5,
+      12.0
+    ],
+    "train_csv_sha256": "9f1b729ab08f120c9e8d3a5681aa1ccbdf1d9210f9aaa6143959363dcb106a7d",
+    "requirements_sha256": "e7c1071a59cda640ae01d6bf115dfe66abea6a60944387c4cc5818ad6693a5ca",
+    "environment_sha256": "b422dec5eba88a1b7f355734e9cc45e576a45910f246460c4896b08b6bb612cb",
+    "environment_spec": {
+      "python": "3.13.17",
+      "requirements": "requirements.txt"
+    },
+    "debug": false
+  },
+  "recipes": {
+    "R2_Episodic_Ranking": {
+      "selection": {
+        "recipe": "R2_Episodic_Ranking",
+        "epoch": 8,
+        "seen_top1": 76.97000000000001,
+        "proxy_top1": 14.589999999999998,
+        "seen_top5": 97.23666666666666,
+        "proxy_top5": 42.626666666666665,
+        "harmonic_top1": 24.52333333333333,
+        "blocked_by_seen_pct": 76.83666666666666,
+        "median_true_pair_minus_top_seen": -3.264038642247518
+      },
+      "gamma": 5.5
+    },
+    "R1_Prototype": {
+      "selection": {
+        "recipe": "R1_Prototype",
+        "epoch": 15,
+        "seen_top1": 78.40333333333332,
+        "proxy_top1": 14.386666666666665,
+        "seen_top5": 97.68333333333334,
+        "proxy_top5": 39.77333333333333,
+        "harmonic_top1": 24.073333333333334,
+        "blocked_by_seen_pct": 74.81333333333333,
+        "median_true_pair_minus_top_seen": -3.9179959297180176
+      },
+      "gamma": 6.5
+    },
+    "R0_A2": {
+      "selection": {
+        "recipe": "R0_A2",
+        "epoch": 17,
+        "seen_top1": 78.39666666666666,
+        "proxy_top1": 13.790000000000001,
+        "seen_top5": 97.77333333333333,
+        "proxy_top5": 39.98666666666667,
+        "harmonic_top1": 23.19333333333333,
+        "blocked_by_seen_pct": 73.88333333333334,
+        "median_true_pair_minus_top_seen": -3.561314264933268
+      },
+      "gamma": 5.5
+    }
+  }
+}
