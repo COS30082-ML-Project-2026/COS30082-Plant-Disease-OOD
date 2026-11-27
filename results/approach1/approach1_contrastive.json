@@ -1,12 +1,12 @@
 {
   "model": "approach1_contrastive",
-  "seen_top1": 6.0,
+  "seen_top1": 3.0,
   "seen_top5": 11.0,
   "unseen_top1": 0.0,
   "unseen_top5": 0.0,
   "harmonic_mean": 0.0,
-  "crop_acc": 14.0,
-  "disease_acc": 17.0,
+  "crop_acc": 19.0,
+  "disease_acc": 12.0,
   "hp": {
     "backbone": "resnet50",
     "lr": 0.0003,
@@ -19,20 +19,22 @@
     "projection_dim": 128,
     "temperature": 0.2,
     "contrastive_weight": 0.3,
-    "seen_bias": 2.0
+    "seen_bias": 2.0,
+    "w_crop": 1.0,
+    "w_disease": 1.5
   },
   "robustness": {
     "brightness": {
-      "top1": 6.0,
-      "drop": 0.0
+      "top1": 2.0,
+      "drop": 1.0
     },
     "blur": {
-      "top1": 5.0,
+      "top1": 2.0,
       "drop": 1.0
     },
     "noise": {
-      "top1": 5.0,
-      "drop": 1.0
+      "top1": 4.0,
+      "drop": -1.0
     }
   }
 }
