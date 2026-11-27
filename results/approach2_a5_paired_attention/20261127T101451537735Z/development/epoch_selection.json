@@ -1,0 +1,83 @@
+{
+  "recipe": "A5_PairedDiseaseAttention",
+  "selection": {
+    "recipe": "A5_PairedDiseaseAttention",
+    "epoch": 2,
+    "images_trained": 6788,
+    "train_loss": 4.0340258585893904,
+    "train_ranking_loss": 0.9276714867873268,
+    "train_transfer_ranking_loss": 0.26606375665471427,
+    "transfer_anchor_fraction": 0.2153800824985268,
+    "supcon_anchor_fraction": 0.2153800824985268,
+    "paired_loss": 0.45309815106329937,
+    "paired_anchor_fraction": 0.2153800824985268,
+    "seen_top1": 73.35,
+    "proxy_top1": 25.22,
+    "harmonic_top1": 37.53,
+    "seen_top5": 97.25,
+    "proxy_top5": 33.04,
+    "proxy_blocked_by_fit_pairs_pct": 67.83,
+    "proxy_true_crop_top1": 29.57
+  },
+  "gamma": 5.0,
+  "recipes": {
+    "A5_Control": {
+      "selection": {
+        "recipe": "A5_Control",
+        "epoch": 10,
+        "images_trained": 6788,
+        "train_loss": 1.9514346652755894,
+        "train_ranking_loss": 0.11844207287634875,
+        "train_transfer_ranking_loss": 0.03480313355952131,
+        "transfer_anchor_fraction": 0.2133176193282263,
+        "supcon_anchor_fraction": 0.2133176193282263,
+        "paired_loss": 0.0,
+        "paired_anchor_fraction": 0.0,
+        "seen_top1": 86.81,
+        "proxy_top1": 23.48,
+        "harmonic_top1": 36.96,
+        "seen_top5": 99.45,
+        "proxy_top5": 53.91,
+        "proxy_blocked_by_fit_pairs_pct": 66.09,
+        "proxy_true_crop_top1": 28.7
+      },
+      "gamma": 5.5
+    },
+    "A5_PairedDiseaseAttention": {
+      "selection": {
+        "recipe": "A5_PairedDiseaseAttention",
+        "epoch": 2,
+        "images_trained": 6788,
+        "train_loss": 4.0340258585893904,
+        "train_ranking_loss": 0.9276714867873268,
+        "train_transfer_ranking_loss": 0.26606375665471427,
+        "transfer_anchor_fraction": 0.2153800824985268,
+        "supcon_anchor_fraction": 0.2153800824985268,
+        "paired_loss": 0.45309815106329937,
+        "paired_anchor_fraction": 0.2153800824985268,
+        "seen_top1": 73.35,
+        "proxy_top1": 25.22,
+        "harmonic_top1": 37.53,
+        "seen_top5": 97.25,
+        "proxy_top5": 33.04,
+        "proxy_blocked_by_fit_pairs_pct": 67.83,
+        "proxy_true_crop_top1": 29.57
+      },
+      "gamma": 5.0
+    }
+  },
+  "tune_proxy_pairs": [
+    110,
+    130,
+    211,
+    258,
+    296
+  ],
+  "check_proxy_pairs": [
+    65,
+    103,
+    107,
+    246,
+    314
+  ]
+}

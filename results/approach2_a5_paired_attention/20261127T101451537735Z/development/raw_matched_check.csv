@@ -1,0 +1,3 @@
+recipe,seen_top1,proxy_top1,harmonic_top1,seen_top5,proxy_top5,proxy_blocked_by_fit_pairs_pct,proxy_true_crop_top1
+A5_Control,71.15,54.2,61.53,95.88,68.83,41.19,55.83
+A5_PairedDiseaseAttention,70.6,54.74,61.67,96.43,68.56,40.92,56.1

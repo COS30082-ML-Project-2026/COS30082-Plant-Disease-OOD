@@ -1,0 +1,2 @@
+epoch,recipe,reference,seen_top1_delta_pp,proxy_top1_delta_pp,harmonic_top1_delta_pp,seen_top5_delta_pp,proxy_top5_delta_pp,proxy_blocked_by_fit_pairs_pct_delta_pp,proxy_true_crop_top1_delta_pp
+2,A5_PairedDiseaseAttention,A5_Control,-0.55,0.54,0.14,0.55,-0.27,-0.27,0.27

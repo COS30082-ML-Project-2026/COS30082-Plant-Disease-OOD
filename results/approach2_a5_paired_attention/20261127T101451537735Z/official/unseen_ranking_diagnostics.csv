@@ -1,0 +1,3 @@
+recipe,scoring,unseen_images,joint_correct,unseen_only_correct,unseen_predicted_seen,blocked_by_seen,blocked_same_crop,blocked_other_crop,median_true_pair_minus_top_seen_score
+A5_PairedDiseaseAttention,raw,1448,202,1192,1238,990,832,158,-2.4570693969726562
+A5_PairedDiseaseAttention,calibrated,1448,1098,1192,115,94,71,23,2.5429306030273438

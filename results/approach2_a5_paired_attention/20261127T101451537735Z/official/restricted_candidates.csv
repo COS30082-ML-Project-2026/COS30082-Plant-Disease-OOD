@@ -1,0 +1,5 @@
+recipe,scoring,split,candidates,top1,top5
+A5_PairedDiseaseAttention,raw,seen_only,323,62.15,88.95
+A5_PairedDiseaseAttention,raw,unseen_only,10,82.32,98.27
+A5_PairedDiseaseAttention,calibrated,seen_only,323,62.15,88.95
+A5_PairedDiseaseAttention,calibrated,unseen_only,10,82.32,98.27

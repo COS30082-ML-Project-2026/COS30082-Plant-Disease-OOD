@@ -1,0 +1,5 @@
+recipe,epoch,scoring,gamma,seen_top1,proxy_top1,harmonic_top1,seen_top5,proxy_top5,proxy_blocked_by_fit_pairs_pct,proxy_true_crop_top1
+A5_Control,10,raw,0.0,86.26,23.85,37.37,97.25,63.41,69.38,24.12
+A5_Control,10,calibrated,5.5,76.37,77.51,76.94,96.43,98.92,15.72,80.76
+A5_PairedDiseaseAttention,2,raw,0.0,70.6,54.74,61.67,96.43,68.56,40.92,56.1
+A5_PairedDiseaseAttention,2,calibrated,5.0,55.77,85.37,67.47,91.48,98.1,10.3,88.35

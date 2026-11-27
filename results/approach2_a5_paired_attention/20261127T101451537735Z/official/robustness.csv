@@ -1,0 +1,7 @@
+recipe,scoring,condition,seen_top1,drop_pp
+A5_PairedDiseaseAttention,raw,brightness,61.85,0.1
+A5_PairedDiseaseAttention,raw,blur,59.75,2.2
+A5_PairedDiseaseAttention,raw,noise,54.7,7.25
+A5_PairedDiseaseAttention,calibrated,brightness,51.35,-0.15
+A5_PairedDiseaseAttention,calibrated,blur,46.25,4.95
+A5_PairedDiseaseAttention,calibrated,noise,40.55,10.65
