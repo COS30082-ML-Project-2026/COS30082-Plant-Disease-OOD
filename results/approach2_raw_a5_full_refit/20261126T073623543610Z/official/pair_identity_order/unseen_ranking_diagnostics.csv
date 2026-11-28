@@ -1,2 +1,0 @@
-unseen_images,joint_correct,unseen_only_correct,unseen_predicted_seen,correct_within_unseen_but_blocked_by_seen,crop_head_top1,disease_head_top1,median_true_pair_minus_top_seen_score
-1448,123,1193,1319,1070,84.05,6.98,-3.691134452819824
